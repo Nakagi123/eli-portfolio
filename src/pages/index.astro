@@ -1,39 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
 import Hero from '../sections/Hero.astro';
+import Skills from '../sections/Skills.astro';
+import Projects from '../sections/Projects.astro';
+import Certifications from '../sections/Certifications.astro';
+import Experience from '../sections/Experience.astro';
+import Contact from '../sections/Contact.astro';
 ---
 
 <BaseLayout title="ELI.EXE | Portfolio">
   <Hero />
-
-  <section id="work" class="section-container border-t border-outline py-24">
-    <p class="font-ui mb-4 text-xs text-accent">
-      [ CHAPTER 01 ]
-    </p>
-    <h2 class="font-pixel mb-6 text-3xl">SELECTED WORK</h2>
-    <div class="pixel-panel p-8 text-muted">
-      Project cards are coming soon.
-    </div>
-  </section>
-
-  <section id="about" class="section-container border-t border-outline py-24">
-    <p class="font-ui mb-4 text-xs text-accent">
-      [ CHAPTER 02 ]
-    </p>
-    <h2 class="font-pixel mb-6 text-3xl">ABOUT ME</h2>
-    <p class="max-w-xl leading-relaxed text-muted">
-      A curious developer building things, learning along the way,
-      and enjoying the adventure.
-    </p>
-  </section>
-
-  <section id="contact" class="section-container border-t border-outline py-24">
-    <p class="font-ui mb-4 text-xs text-accent">
-      [ CHAPTER 03 ]
-    </p>
-    <h2 class="font-pixel mb-6 text-3xl">SAY HELLO</h2>
-    <p class="text-muted">
-      Contact links are coming soon.
-    </p>
-  </section>
+  <Skills />
+  <Projects />
+  <Certifications />
+  <Experience />
+  <Contact />
 </BaseLayout>

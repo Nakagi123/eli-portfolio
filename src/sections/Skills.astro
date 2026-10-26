@@ -1,0 +1,49 @@
+---
+import { skillGroups } from '../data/skills';
+
+const visibleGroups = skillGroups.filter(
+  (group) => group.skills.length > 0
+);
+---
+
+<section
+  id="skills"
+  aria-labelledby="skills-title"
+  class="section-container border-t border-outline py-20 sm:py-28"
+>
+  <div class="mb-12 space-y-4">
+    <p class="font-ui text-xs tracking-widest text-accent">
+      [ CHAPTER 01 — THE TOOLKIT ]
+    </p>
+
+    <h2
+      id="skills-title"
+      class="font-pixel text-2xl leading-relaxed text-foreground sm:text-3xl"
+    >
+      SKILLS & TECHNOLOGIES
+    </h2>
+
+    <p class="max-w-2xl leading-relaxed text-muted">
+      The languages, frameworks, and tools I use to turn ideas
+      into things that work.
+    </p>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    {visibleGroups.map((group) => (
+      <article class="pixel-panel p-5 sm:p-7">
+        <h3 class="font-ui mb-6 border-b border-outline pb-4 text-sm font-semibold text-accent">
+          ▶ {group.category}
+        </h3>
+
+        <ul class="flex flex-wrap gap-3">
+          {group.skills.map((skill) => (
+            <li class="font-ui border border-outline bg-background px-3 py-2 text-xs text-foreground transition-colors hover:border-accent">
+              {skill}
+            </li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </div>
+</section>

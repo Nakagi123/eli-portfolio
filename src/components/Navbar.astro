@@ -2,40 +2,120 @@
 import ThemeToggle from './ThemeToggle.astro';
 
 const links = [
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/#about' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Projects', href: '/#work' },
+  { label: 'Certifications', href: '/#certifications' },
+  { label: 'Experience', href: '/#experience' },
   { label: 'Contact', href: '/#contact' },
 ];
 ---
 
 <header class="sticky top-0 z-50 border-b border-outline bg-background">
   <nav
-    class="section-container flex min-h-20 flex-wrap items-center justify-between gap-4 py-3"
+    class="section-container flex min-h-20 flex-wrap items-center justify-between gap-3 py-3"
     aria-label="Main navigation"
   >
-    <a href="/" class="font-pixel text-lg tracking-tight text-accent">
+    <a href="/" class="font-pixel text-lg text-accent">
       ELI.EXE
     </a>
 
-    <div class="flex flex-wrap items-center gap-4 sm:gap-7">
-      <div class="flex items-center gap-4 sm:gap-6">
+    <!-- Desktop navigation -->
+    <div class="hidden items-center gap-5 lg:flex">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="font-ui group flex items-center gap-1 text-xs text-muted transition-colors hover:text-accent"
+        >
+          <span
+            aria-hidden="true"
+            class="text-accent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+          >
+            ▶
+          </span>
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-3">
+      <ThemeToggle />
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="font-ui flex min-h-11 min-w-11 items-center justify-center border border-outline text-lg lg:hidden"
+        aria-label="Open navigation menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+      >
+        <span id="menu-icon" aria-hidden="true">☰</span>
+      </button>
+    </div>
+
+    <!-- Mobile navigation -->
+    <div
+      id="mobile-menu"
+      class="hidden w-full border-t border-outline pt-4 lg:hidden"
+      hidden
+    >
+      <div class="flex flex-col gap-1 pb-3">
         {links.map((link) => (
           <a
             href={link.href}
-            class="font-ui group flex items-center gap-1 text-xs text-muted transition-colors hover:text-accent"
+            class="font-ui mobile-nav-link flex min-h-11 items-center gap-3 px-2 text-sm text-muted hover:bg-surface hover:text-accent"
           >
-            <span
-              aria-hidden="true"
-              class="text-accent opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
-            >
-              ▶
-            </span>
+            <span aria-hidden="true" class="text-accent">▶</span>
             {link.label}
           </a>
         ))}
       </div>
-
-      <ThemeToggle />
     </div>
   </nav>
 </header>
+
+<script>
+  function setupMobileMenu() {
+    const button = document.querySelector<HTMLButtonElement>('#menu-toggle');
+    const menu = document.querySelector<HTMLElement>('#mobile-menu');
+    const icon = document.querySelector<HTMLElement>('#menu-icon');
+
+    if (!button || !menu || !icon) return;
+    if (button.dataset.initialized === 'true') return;
+
+    button.dataset.initialized = 'true';
+
+    function setOpen(open: boolean) {
+      menu!.hidden = !open;
+      menu!.classList.toggle('hidden', !open);
+      button!.setAttribute('aria-expanded', String(open));
+      button!.setAttribute(
+        'aria-label',
+        open ? 'Close navigation menu' : 'Open navigation menu'
+      );
+      icon!.textContent = open ? '×' : '☰';
+    }
+
+    setOpen(false);
+
+    button.addEventListener('click', () => {
+      setOpen(button.getAttribute('aria-expanded') !== 'true');
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+
+    // Reset menu when returning to desktop width.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    desktop.addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+
+  setupMobileMenu();
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>
