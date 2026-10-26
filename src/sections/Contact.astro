@@ -1,22 +1,334 @@
+---
+import WisdomTree from '../components/WisdomTree.astro';
+import {
+  wisdomDialogues,
+  wisdomFruits,
+} from '../data/treeOfWisdom';
+---
+
 <section
   id="contact"
   aria-labelledby="contact-title"
-  class="section-container border-t border-outline py-20 sm:py-28"
+  class="relative overflow-hidden py-20 sm:py-28"
 >
-  <p class="font-ui mb-4 text-xs tracking-widest text-accent">
-    [ CHAPTER 05 — THE NEXT ADVENTURE ]
-  </p>
+  <div class="section-container">
+    <!-- Chapter heading -->
+    <div class="mx-auto mb-8 max-w-2xl space-y-4 text-center">
+      <p class="font-ui text-xs tracking-[0.2em] text-accent">
+        [ CHAPTER 05 — THE NEXT ADVENTURE ]
+      </p>
 
-  <h2 id="contact-title" class="font-pixel mb-6 text-2xl sm:text-3xl">
-    LET'S CONNECT
-  </h2>
+      <h2
+        id="contact-title"
+        class="font-pixel text-2xl leading-relaxed
+               text-foreground sm:text-3xl"
+      >
+        THE TREE OF WISDOM.
+      </h2>
 
-  <p class="mb-8 max-w-xl leading-relaxed text-muted">
-    Have a project, an opportunity, or just want to say hello?
-    I'd love to hear from you.
-  </p>
+      <p class="text-foreground/80">
+        Every connection begins with a little curiosity.
+      </p>
+    </div>
 
-  <div class="pixel-panel p-6 text-sm text-muted">
-    Email, LinkedIn, GitHub, and resume links coming soon.
+    <!-- Tree artwork and clickable fruits -->
+    <WisdomTree />
+
+    <!-- RPG dialogue box -->
+    <div
+      data-wisdom-dialogue
+      class="pixel-panel relative mx-auto mt-4
+             max-w-2xl p-5 sm:p-6"
+    >
+      <!-- NPC name and dialogue counter -->
+      <div
+        class="mb-4 flex flex-wrap items-center
+               justify-between gap-3"
+      >
+        <p
+          class="font-pixel text-[10px]
+                 tracking-wide text-accent"
+        >
+          ✦ THE TREE SPEAKS
+        </p>
+
+        <span
+          data-dialogue-counter
+          class="font-ui text-xs text-foreground/75"
+        >
+          01 / {String(wisdomDialogues.length).padStart(2, '0')}
+        </span>
+      </div>
+
+      <!-- Typewriter dialogue -->
+      <div class="min-h-[7rem] py-2 sm:min-h-[8rem]">
+        <p
+          data-dialogue-text
+          class="font-pixel text-[11px]
+                 leading-[2] tracking-[0.02em]
+                 text-foreground
+                 sm:text-xs sm:leading-[2.1]"
+          aria-live="off"
+        >
+          {wisdomDialogues[0]}
+        </p>
+
+        <!-- Blinking pixel cursor -->
+        <span
+          class="dialogue-cursor mt-3 inline-block
+                 h-2 w-2 bg-accent"
+          aria-hidden="true"
+        ></span>
+      </div>
+
+      <!-- Screen reader announcement -->
+      <p
+        data-dialogue-announcement
+        class="sr-only"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {wisdomDialogues[0]}
+      </p>
+
+      <!-- Dialogue controls -->
+      <div
+        class="mt-5 flex flex-wrap items-center
+               justify-between gap-3 border-t
+               border-outline pt-4"
+      >
+        <button
+          type="button"
+          data-skip-typing
+          class="font-ui text-xs text-foreground/75
+                 transition-colors hover:text-accent
+                 focus-visible:outline-2
+                 focus-visible:outline-accent"
+        >
+          SKIP TYPING
+        </button>
+
+        <button
+          type="button"
+          data-next-wisdom
+          class="inline-flex min-h-11 items-center
+                 gap-2 border border-outline
+                 bg-surface px-4 py-2 font-ui
+                 text-xs text-accent
+                 transition-colors hover:border-accent
+                 focus-visible:outline-2
+                 focus-visible:outline-accent"
+        >
+          NEXT WISDOM
+          <span aria-hidden="true">↻</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Accessible contact links -->
+    <div class="mx-auto mt-10 max-w-2xl text-center">
+      <p
+        class="mb-4 font-ui text-xs uppercase
+               tracking-wider text-foreground/75"
+      >
+        PICK A FRUIT OR CHOOSE A PATH
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-3">
+        {wisdomFruits.map((fruit) => (
+          <a
+            href={fruit.href}
+            target={fruit.external ? '_blank' : undefined}
+            rel={fruit.external ? 'noopener noreferrer' : undefined}
+            class="inline-flex min-h-11 items-center
+                   justify-center gap-2 border
+                   border-outline bg-surface
+                   px-4 py-2 font-ui text-xs
+                   text-foreground transition-colors
+                   hover:border-accent hover:text-accent
+                   focus-visible:outline-2
+                   focus-visible:outline-accent"
+          >
+            <span class="text-accent" aria-hidden="true">
+              ✦
+            </span>
+
+            {fruit.label}
+
+            {fruit.external && (
+              <span aria-hidden="true">↗</span>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
   </div>
 </section>
+
+<script>
+  import { wisdomDialogues } from '../data/treeOfWisdom';
+
+  function setupWisdomDialogue() {
+    console.log('🌳 Tree of Wisdom script is running!');
+    const root = document.querySelector<HTMLElement>(
+      '[data-wisdom-dialogue]'
+    );
+
+    if (!root || root.dataset.initialized === 'true') {
+      return;
+    }
+
+    const textElement = root.querySelector<HTMLElement>(
+      '[data-dialogue-text]'
+    );
+
+    const announcement = root.querySelector<HTMLElement>(
+      '[data-dialogue-announcement]'
+    );
+
+    const counter = root.querySelector<HTMLElement>(
+      '[data-dialogue-counter]'
+    );
+
+    const nextButton = root.querySelector<HTMLButtonElement>(
+      '[data-next-wisdom]'
+    );
+
+    const skipButton = root.querySelector<HTMLButtonElement>(
+      '[data-skip-typing]'
+    );
+
+    if (
+      !textElement ||
+      !announcement ||
+      !counter ||
+      !nextButton ||
+      !skipButton ||
+      wisdomDialogues.length === 0
+    ) {
+      return;
+    }
+
+    root.dataset.initialized = 'true';
+
+    const motionQuery = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    let dialogueIndex = 0;
+    let typingTimer: number | undefined;
+    let isTyping = false;
+
+    function stopTyping() {
+      window.clearTimeout(typingTimer);
+      typingTimer = undefined;
+      isTyping = false;
+    }
+
+    function finishTyping() {
+      stopTyping();
+
+      textElement!.textContent =
+        wisdomDialogues[dialogueIndex];
+
+      skipButton!.hidden = true;
+    }
+
+    function showDialogue() {
+      stopTyping();
+
+      const message = wisdomDialogues[dialogueIndex];
+
+      counter!.textContent =
+        `${String(dialogueIndex + 1).padStart(2, '0')} / ` +
+        `${String(wisdomDialogues.length).padStart(2, '0')}`;
+
+      // Announce the full line to screen readers.
+      announcement!.textContent = message;
+
+      if (motionQuery.matches) {
+        textElement!.textContent = message;
+        skipButton!.hidden = true;
+        return;
+      }
+
+      const characters = Array.from(message);
+      let characterIndex = 0;
+
+      textElement!.textContent = '';
+      isTyping = true;
+      skipButton!.hidden = false;
+
+      function typeNextCharacter() {
+        if (!isTyping) return;
+
+        if (characterIndex >= characters.length) {
+          finishTyping();
+          return;
+        }
+
+        textElement!.textContent +=
+          characters[characterIndex];
+
+        characterIndex += 1;
+
+        typingTimer = window.setTimeout(
+          typeNextCharacter,
+          30
+        );
+      }
+
+      typeNextCharacter();
+    }
+
+    // NEXT always advances and restarts the animation.
+    nextButton.addEventListener('click', () => {
+      dialogueIndex =
+        (dialogueIndex + 1) % wisdomDialogues.length;
+
+      showDialogue();
+    });
+
+    // SKIP only completes the current dialogue.
+    skipButton.addEventListener('click', finishTyping);
+
+    motionQuery.addEventListener('change', () => {
+      if (motionQuery.matches) {
+        finishTyping();
+      }
+    });
+
+    showDialogue();
+  }
+
+
+
+  setupWisdomDialogue();
+
+  document.addEventListener(
+    'astro:page-load',
+    setupWisdomDialogue
+  );
+</script>
+
+<style>
+  .dialogue-cursor {
+    animation: dialogue-blink 1s steps(1, end) infinite;
+  }
+
+  @keyframes dialogue-blink {
+    0%, 49% {
+      opacity: 1;
+    }
+
+    50%, 100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dialogue-cursor {
+      animation: none;
+    }
+  }
+</style>

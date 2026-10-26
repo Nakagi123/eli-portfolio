@@ -1,0 +1,373 @@
+---
+import { wisdomFruits } from '../data/treeOfWisdom';
+---
+
+<div class="wisdom-tree relative mx-auto w-full max-w-[560px]">
+  <svg
+    viewBox="0 0 360 390"
+    class="h-auto w-full overflow-visible"
+    xmlns="http://www.w3.org/2000/svg"
+    role="group"
+    aria-label="The Tree of Wisdom and its interactive social-link fruits"
+  >
+    <defs>
+      <radialGradient id="wisdom-aura">
+        <stop
+          offset="0%"
+          stop-color="#B5A2D0"
+          stop-opacity="0.26"
+        />
+        <stop
+          offset="100%"
+          stop-color="#B5A2D0"
+          stop-opacity="0"
+        />
+      </radialGradient>
+
+      <filter id="fruit-glow">
+        <feGaussianBlur stdDeviation="3" />
+      </filter>
+    </defs>
+
+    <!-- Magical aura -->
+    <ellipse
+      cx="180"
+      cy="185"
+      rx="170"
+      ry="165"
+      fill="url(#wisdom-aura)"
+    />
+
+    <!-- Ground shadow -->
+    <ellipse
+      cx="180"
+      cy="353"
+      rx="105"
+      ry="12"
+      fill="#B5A2D0"
+      opacity="0.12"
+    />
+
+    <!-- Roots -->
+    <g fill="#51425F">
+      <path
+        d="M154 306 H205 V332 H222 V344
+           H247 V354 H113 V344 H136 V332 H154 Z"
+      />
+      <path
+        d="M153 325 H139 V339 H117 V349 H101 V355
+           H155 Z"
+      />
+      <path
+        d="M206 325 H221 V339 H243 V349 H259 V355
+           H205 Z"
+      />
+    </g>
+
+    <!-- Trunk outline -->
+    <path
+      d="M151 172 H209 V328 H220 V344
+         H233 V354 H127 V344 H140 V328
+         H151 Z"
+      fill="#302A3B"
+    />
+
+    <!-- Trunk body -->
+    <path
+      d="M157 178 H203 V330 H214 V344
+         H146 V330 H157 Z"
+      fill="#866A83"
+    />
+
+    <!-- Bark highlights and shadows -->
+    <g fill="#A78BA4">
+      <rect x="159" y="189" width="9" height="86" />
+      <rect x="169" y="222" width="6" height="42" />
+      <rect x="192" y="275" width="6" height="51" />
+    </g>
+
+    <g fill="#58445E">
+      <rect x="196" y="194" width="8" height="64" />
+      <rect x="183" y="296" width="6" height="35" />
+      <rect x="152" y="310" width="7" height="26" />
+    </g>
+
+    <!-- Branches behind the foliage -->
+    <g fill="#68516F">
+      <path d="M160 231 H148 V205 H124 V185 H111 V174 H126 V183 H155 V199 H169 Z" />
+      <path d="M190 218 H203 V192 H229 V171 H242 V161 H228 V171 H198 V190 H182 Z" />
+      <path d="M165 263 H149 V242 H117 V231 H106 V221 H122 V230 H160 Z" />
+      <path d="M194 256 H211 V236 H241 V222 H253 V212 H237 V224 H200 Z" />
+    </g>
+
+    <!-- Canopy outer silhouette -->
+    <path
+      d="M133 43 H226 V58 H251 V73 H273 V93
+         H291 V117 H307 V155 H295 V184
+         H278 V211 H248 V230 H214 V239
+         H147 V230 H110 V216 H82 V198
+         H65 V172 H52 V133 H65 V102
+         H84 V82 H106 V62 H133 Z"
+      fill="#2D3B3B"
+      stroke="#1B262B"
+      stroke-width="5"
+      stroke-linejoin="miter"
+    />
+
+    <!-- Main foliage -->
+    <path
+      d="M139 50 H219 V65 H246 V82 H268 V103
+         H286 V132 H298 V155 H284 V180
+         H269 V202 H241 V220 H209 V229
+         H151 V220 H116 V207 H88 V190
+         H73 V166 H61 V134 H75 V109
+         H91 V89 H112 V70 H139 Z"
+      fill="#526B5F"
+    />
+
+    <!-- Dark leaf shadows -->
+    <g fill="#384E48">
+      <rect x="73" y="142" width="43" height="31" />
+      <rect x="90" y="174" width="54" height="26" />
+      <rect x="124" y="192" width="62" height="27" />
+      <rect x="201" y="190" width="51" height="29" />
+      <rect x="253" y="150" width="35" height="32" />
+      <rect x="222" y="88" width="46" height="28" />
+      <rect x="141" y="65" width="55" height="23" />
+    </g>
+
+    <!-- Leaf highlights -->
+    <g fill="#789182">
+      <rect x="116" y="81" width="43" height="13" />
+      <rect x="102" y="94" width="27" height="13" />
+      <rect x="180" y="73" width="37" height="13" />
+      <rect x="223" y="114" width="36" height="13" />
+      <rect x="81" y="124" width="31" height="13" />
+      <rect x="147" y="121" width="42" height="13" />
+      <rect x="192" y="155" width="37" height="13" />
+      <rect x="113" y="161" width="32" height="13" />
+    </g>
+
+    <!-- Magical lavender foliage -->
+    <g fill="#B5A2D0" opacity="0.75">
+      <rect x="150" y="95" width="10" height="10" />
+      <rect x="244" y="139" width="9" height="9" />
+      <rect x="100" y="187" width="8" height="8" />
+      <rect x="210" y="204" width="8" height="8" />
+      <rect x="178" y="53" width="7" height="7" />
+    </g>
+
+    <!-- Face carved into trunk -->
+    <g>
+      <!-- Eyebrows -->
+      <rect x="162" y="268" width="13" height="4" fill="#4B364E" />
+      <rect x="187" y="268" width="13" height="4" fill="#4B364E" />
+
+      <!-- Eyes -->
+      <rect x="166" y="276" width="7" height="9" fill="#F2E7DD" />
+      <rect x="190" y="276" width="7" height="9" fill="#F2E7DD" />
+
+      <!-- Pupils -->
+      <rect x="169" y="280" width="3" height="4" fill="#302A3B" />
+      <rect x="193" y="280" width="3" height="4" fill="#302A3B" />
+
+      <!-- Nose -->
+      <rect x="179" y="286" width="6" height="8" fill="#654B67" />
+
+      <!-- Smile -->
+      <path
+        d="M168 301 V306 H174 V310 H190 V306 H196 V301"
+        fill="none"
+        stroke="#4B364E"
+        stroke-width="4"
+        stroke-linejoin="miter"
+      />
+    </g>
+
+    <!-- Interactive pixel apples -->
+    {wisdomFruits.map((fruit) => (
+      <a
+        href={fruit.href}
+        target={fruit.external ? '_blank' : undefined}
+        rel={fruit.external ? 'noopener noreferrer' : undefined}
+        aria-label={`${fruit.label}${fruit.external ? ' (opens in a new tab)' : ''}`}
+        class="wisdom-fruit outline-none"
+      >
+        <g transform={`translate(${fruit.x} ${fruit.y})`}>
+          <!-- Larger invisible tap target -->
+          <rect
+            x="-25"
+            y="-27"
+            width="50"
+            height="55"
+            fill="transparent"
+          />
+
+          <!-- Hover glow -->
+          <rect
+            class="fruit-glow"
+            x="-19"
+            y="-19"
+            width="38"
+            height="38"
+            fill="#F1A4B1"
+            opacity="0.45"
+            filter="url(#fruit-glow)"
+          />
+
+          <!-- Apple sprite -->
+          <g class="fruit-sprite" shape-rendering="crispEdges">
+            <!-- Stem -->
+            <rect x="-2" y="-22" width="4" height="8" fill="#6A493F" />
+
+            <!-- Leaf -->
+            <rect x="3" y="-23" width="10" height="5" fill="#A8C9A3" />
+            <rect x="7" y="-18" width="6" height="4" fill="#789F7C" />
+
+            <!-- Apple silhouette -->
+            <path
+              d="M-13 -14 H-5 V-11 H5 V-14 H13
+                 V-10 H18 V-3 H20 V11 H15
+                 V17 H6 V20 H-6 V17 H-15
+                 V11 H-20 V-3 H-18 V-10 H-13 Z"
+              fill="#3B2938"
+            />
+
+            <!-- Apple body -->
+            <path
+              d="M-13 -11 H-5 V-8 H5 V-11 H13
+                 V-7 H15 V-1 H17 V10 H12
+                 V14 H5 V17 H-5 V14 H-12
+                 V10 H-17 V-1 H-15 V-7 H-13 Z"
+              fill="#E9A0A8"
+            />
+
+            <!-- Apple shine -->
+            <rect x="-12" y="-6" width="5" height="9" fill="#FFD0D1" />
+            <rect x="-7" y="-10" width="5" height="4" fill="#FFD0D1" />
+
+            <!-- Apple shadow -->
+            <rect x="11" y="1" width="5" height="8" fill="#C9748E" />
+            <rect x="5" y="12" width="7" height="4" fill="#C9748E" />
+
+            <!-- Platform abbreviation -->
+            <text
+              x="0"
+              y="6"
+              fill="#302A3B"
+              font-family="monospace"
+              font-size="12"
+              font-weight="900"
+              text-anchor="middle"
+              aria-hidden="true"
+            >
+              {fruit.symbol}
+            </text>
+          </g>
+
+          <!-- Tooltip -->
+          <g class="fruit-tooltip" aria-hidden="true">
+            <rect
+              x="-46"
+              y="-58"
+              width="92"
+              height="24"
+              fill="#262E3D"
+              stroke="#B5A2D0"
+              stroke-width="2"
+            />
+
+            <text
+              x="0"
+              y="-42"
+              fill="#ECEAE4"
+              font-family="monospace"
+              font-size="11"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              {fruit.label}
+            </text>
+          </g>
+        </g>
+      </a>
+    ))}
+
+    <!-- Magic particles -->
+    <g fill="#B5A2D0" opacity="0.75">
+      <rect x="32" y="84" width="5" height="5" />
+      <rect x="318" y="106" width="4" height="4" />
+      <rect x="42" y="248" width="4" height="4" />
+      <rect x="312" y="266" width="5" height="5" />
+      <rect x="177" y="15" width="4" height="4" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .wisdom-tree {
+    animation: tree-float 7s ease-in-out infinite;
+  }
+
+  .wisdom-fruit {
+    cursor: pointer;
+  }
+
+  .fruit-sprite {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .fruit-glow {
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .fruit-tooltip {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+  }
+
+  .wisdom-fruit:hover .fruit-sprite,
+  .wisdom-fruit:focus-visible .fruit-sprite {
+    transform: scale(1.16);
+  }
+
+  .wisdom-fruit:hover .fruit-glow,
+  .wisdom-fruit:focus-visible .fruit-glow {
+    opacity: 0.65;
+  }
+
+  .wisdom-fruit:hover .fruit-tooltip,
+  .wisdom-fruit:focus-visible .fruit-tooltip {
+    opacity: 1;
+  }
+
+  .wisdom-fruit:focus-visible .fruit-sprite {
+    filter: drop-shadow(0 0 5px #B5A2D0);
+  }
+
+  @keyframes tree-float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wisdom-tree {
+      animation: none;
+    }
+
+    .fruit-sprite,
+    .fruit-glow,
+    .fruit-tooltip {
+      transition: none;
+    }
+  }
+</style>
