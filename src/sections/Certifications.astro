@@ -1,20 +1,64 @@
+---
+import CertificationCard from '../components/CertificationCard.astro';
+import { certifications } from '../data/certifications';
+
+const featuredCertifications = certifications
+  .filter((certification) => certification.featured)
+  .slice(0, 3);
+---
+
 <section
   id="certifications"
   aria-labelledby="certifications-title"
-  class="section-container border-t border-outline py-20 sm:py-28"
+  class="scroll-mt-24 py-20 sm:py-28"
 >
-  <p class="font-ui mb-4 text-xs tracking-widest text-accent">
-    [ CHAPTER 03 — THE ACHIEVEMENTS ]
-  </p>
+  <div class="section-container">
+    <div class="mb-10 max-w-2xl space-y-4">
+      <p class="font-ui text-xs tracking-[0.2em] text-accent">
+        [ CHAPTER 03 — THE ACHIEVEMENTS ]
+      </p>
 
-  <h2
-    id="certifications-title"
-    class="font-pixel mb-6 text-2xl sm:text-3xl"
-  >
-    CERTIFICATIONS
-  </h2>
+      <h2
+        id="certifications-title"
+        class="font-pixel text-2xl leading-relaxed text-foreground
+               sm:text-3xl"
+      >
+        QUESTS COMPLETED.
+      </h2>
 
-  <div class="pixel-panel p-8 text-muted">
-    Verified credentials and certificates will appear here.
+      <p class="max-w-xl text-base leading-relaxed text-muted">
+        A collection of milestones earned along the journey.
+      </p>
+    </div>
+
+    {
+      featuredCertifications.length > 0 ? (
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredCertifications.map((certification, index) => (
+            <CertificationCard
+              certification={certification}
+              index={index}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="pixel-panel p-8 text-center sm:p-12">
+          <p class="font-ui text-sm text-muted">
+            Achievement records are being prepared.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      certifications.length > 0 && (
+        <div class="mt-10 flex justify-center">
+          <a href="/certifications" class="pixel-button">
+            VIEW ALL CERTIFICATIONS
+            <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      )
+    }
   </div>
 </section>

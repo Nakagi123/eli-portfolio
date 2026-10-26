@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CertificationCard from '../../components/CertificationCard.astro';
+import { certifications } from '../../data/certifications';
+
+const sortedCertifications = [...certifications].sort(
+  (a, b) => b.date.localeCompare(a.date)
+);
+---
+
+<BaseLayout title="Certifications | ELI.EXE">
+  <main class="section-container py-16 sm:py-24">
+    <a
+      href="/#certifications"
+      class="font-ui text-sm text-accent hover:underline"
+    >
+      ← BACK TO HOME
+    </a>
+
+    <div class="my-12 max-w-2xl space-y-4">
+      <p class="font-ui text-xs tracking-[0.2em] text-accent">
+        [ ACHIEVEMENT ARCHIVE ]
+      </p>
+
+      <h1 class="font-pixel text-2xl leading-relaxed sm:text-4xl">
+        ALL CERTIFICATIONS.
+      </h1>
+
+      <p class="text-muted">
+        Certificates, milestones, and things I've learned
+        throughout my journey.
+      </p>
+    </div>
+
+    {
+      sortedCertifications.length > 0 ? (
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {sortedCertifications.map((certification, index) => (
+            <CertificationCard
+              certification={certification}
+              index={index}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="pixel-panel p-8 text-center">
+          <p class="font-ui text-sm text-muted">
+            No certifications added yet.
+          </p>
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>
