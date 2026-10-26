@@ -1,0 +1,61 @@
+<button
+  id="theme-toggle"
+  type="button"
+  class="font-ui flex min-h-11 items-center gap-2 border border-outline px-3 text-xs text-foreground transition-colors hover:bg-surface"
+  aria-label="Switch color theme"
+  aria-pressed="false"
+>
+  <span id="theme-icon" aria-hidden="true">☼</span>
+  <span id="theme-label">DAYBREAK</span>
+</button>
+
+<script>
+  function setupThemeToggle() {
+    const button = document.querySelector<HTMLButtonElement>('#theme-toggle');
+    const icon = document.querySelector<HTMLElement>('#theme-icon');
+    const label = document.querySelector<HTMLElement>('#theme-label');
+
+    if (!button || !icon || !label) return;
+
+    // Prevent duplicate event handlers if the page is revisited.
+    if (button.dataset.initialized === 'true') return;
+    button.dataset.initialized = 'true';
+
+    function updateButton() {
+      const isMidnight =
+        document.documentElement.dataset.theme !== 'daybreak';
+
+      icon!.textContent = isMidnight ? '☼' : '☾';
+      label!.textContent = isMidnight ? 'DAYBREAK' : 'MIDNIGHT';
+
+      button!.setAttribute(
+        'aria-label',
+        `Switch to ${isMidnight ? 'Daybreak' : 'Midnight'} theme`
+      );
+      button!.setAttribute('aria-pressed', String(!isMidnight));
+    }
+
+    updateButton();
+
+    button.addEventListener('click', () => {
+      const current = document.documentElement.dataset.theme;
+      const next = current === 'daybreak' ? 'midnight' : 'daybreak';
+
+      document.documentElement.dataset.theme = next;
+
+      try {
+        localStorage.setItem('eli-theme', next);
+      } catch {
+        // Theme still works without local storage.
+      }
+
+      updateButton();
+    });
+  }
+
+  // Run immediately on normal page loads.
+  setupThemeToggle();
+
+  // Also support future Astro client-side navigation.
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

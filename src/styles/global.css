@@ -1,1 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&display=swap');
 @import "tailwindcss";
+
+/* ELI.EXE — Design tokens */
+
+:root,
+:root[data-theme="midnight"] {
+  color-scheme: dark;
+
+  --bg: #191f2b;
+  --surface: #262e3d;
+  --text: #eceae4;
+  --muted: #a9abba;
+  --accent: #b5a2d0;
+  --border: #40465a;
+
+  --font-body: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-pixel: "Silkscreen", monospace;
+}
+
+:root[data-theme="daybreak"] {
+  color-scheme: light;
+
+  --bg: #eae7df;
+  --surface: #f6f3ec;
+  --text: #292f39;
+  --muted: #626674;
+  --accent: #74628e;
+  --border: #bcb6c5;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-foreground: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-outline: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Reusable design utilities */
+
+.font-pixel {
+  font-family: var(--font-pixel);
+}
+
+.font-ui {
+  font-family: var(--font-mono);
+}
+
+.pixel-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.pixel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+
+.pixel-button:hover {
+  transform: translateY(-2px);
+}
+
+.pixel-button:active {
+  transform: translateY(0);
+}
+
+.section-container {
+  width: min(100% - 3rem, 1100px);
+  margin-inline: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

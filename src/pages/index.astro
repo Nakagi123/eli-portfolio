@@ -1,27 +1,63 @@
 ---
-import '../styles/global.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>ELI.EXE</title>
-  </head>
+<BaseLayout title="ELI.EXE | Portfolio">
+  <section class="section-container flex min-h-[75vh] flex-col items-start justify-center gap-7 py-20">
+    <p class="font-ui text-xs tracking-[0.2em] text-accent">
+      [ CHAPTER 00 — THE BEGINNING ]
+    </p>
 
-  <body class="min-h-screen bg-slate-900 text-white">
-    <main class="flex min-h-screen flex-col items-center justify-center gap-4">
-      <p class="font-mono text-purple-300">
-        SYSTEM INITIALIZED
-      </p>
-
-      <h1 class="text-5xl font-bold">
-        ELI.EXE
+    <div class="space-y-4">
+      <h1 class="font-pixel max-w-3xl text-4xl leading-tight text-foreground sm:text-6xl">
+        A LITTLE CURIOUS.<br />
+        ALWAYS EXPLORING.
       </h1>
 
-      <p class="text-slate-400">
-        A new adventure begins.
+      <p class="max-w-xl text-lg leading-relaxed text-muted">
+        Hey, I'm Eli. Welcome to my little corner of the internet,
+        where code meets creativity.
       </p>
-    </main>
-  </body>
-</html>
+    </div>
+
+    <a href="#work" class="pixel-button">
+      <span aria-hidden="true">▶</span>
+      VIEW MY WORK
+    </a>
+
+    <p class="font-ui text-xs text-muted">
+      ↓ SCROLL TO EXPLORE
+    </p>
+  </section>
+
+  <section id="work" class="section-container border-t border-outline py-24">
+    <p class="font-ui mb-4 text-xs text-accent">
+      [ CHAPTER 01 ]
+    </p>
+    <h2 class="font-pixel mb-6 text-3xl">SELECTED WORK</h2>
+    <div class="pixel-panel p-8 text-muted">
+      Project cards are coming soon.
+    </div>
+  </section>
+
+  <section id="about" class="section-container border-t border-outline py-24">
+    <p class="font-ui mb-4 text-xs text-accent">
+      [ CHAPTER 02 ]
+    </p>
+    <h2 class="font-pixel mb-6 text-3xl">ABOUT ME</h2>
+    <p class="max-w-xl leading-relaxed text-muted">
+      A curious developer building things, learning along the way,
+      and enjoying the adventure.
+    </p>
+  </section>
+
+  <section id="contact" class="section-container border-t border-outline py-24">
+    <p class="font-ui mb-4 text-xs text-accent">
+      [ CHAPTER 03 ]
+    </p>
+    <h2 class="font-pixel mb-6 text-3xl">SAY HELLO</h2>
+    <p class="text-muted">
+      Contact links are coming soon.
+    </p>
+  </section>
+</BaseLayout>
