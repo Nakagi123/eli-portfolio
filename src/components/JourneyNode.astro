@@ -1,0 +1,213 @@
+---
+import type { JourneyEntry } from '../data/journey';
+
+interface Props {
+  entry: JourneyEntry;
+}
+
+const { entry } = Astro.props;
+
+const isEducation = entry.path === 'education';
+const isOngoing = entry.status === 'ongoing';
+
+function formatMonth(value: string): string {
+  const [year, month] = value.split('-').map(Number);
+
+  if (
+    !Number.isInteger(year) ||
+    !Number.isInteger(month) ||
+    month < 1 ||
+    month > 12
+  ) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(Date.UTC(year, month - 1, 1)));
+}
+
+const dateRange = [
+  formatMonth(entry.startDate),
+  isOngoing
+    ? 'Present'
+    : entry.endDate
+      ? formatMonth(entry.endDate)
+      : 'End date not specified',
+].join(' — ');
+
+const expectedEndDate =
+  isOngoing && entry.endDate
+    ? formatMonth(entry.endDate)
+    : null;
+---
+
+<details
+  class="group pixel-panel w-full overflow-hidden
+         transition-colors open:border-accent"
+>
+  <!-- Always-visible node -->
+  <summary
+    class="flex cursor-pointer list-none items-start gap-3
+           p-4 sm:p-5
+           [&::-webkit-details-marker]:hidden
+           focus-visible:outline-2
+           focus-visible:outline-offset-[-3px]
+           focus-visible:outline-accent"
+  >
+    <!-- Path icon -->
+    <span
+      class="flex h-10 w-10 shrink-0 items-center justify-center
+             border border-outline bg-background
+             font-ui text-lg text-accent"
+      aria-hidden="true"
+    >
+      {isEducation ? '◇' : '✦'}
+    </span>
+
+    <!-- Main information -->
+    <span class="min-w-0 flex-1 space-y-2">
+      <span
+        class="block font-ui text-[10px] uppercase
+               tracking-[0.16em] text-accent"
+      >
+        {isEducation ? 'EDUCATION PATH' : 'CAREER PATH'}
+      </span>
+
+      <span
+        class="block text-base font-semibold
+               leading-snug text-foreground"
+      >
+        {entry.title}
+      </span>
+
+      <span class="block text-sm text-foreground/70">
+        {entry.organization}
+      </span>
+
+      <!-- Date and status -->
+      <span class="flex flex-wrap items-center gap-2">
+        <span class="font-ui text-xs text-foreground/60">
+          {dateRange}
+        </span>
+
+        <span
+          class:list={[
+            'inline-flex items-center gap-1.5 border px-2 py-1',
+            'font-ui text-[10px] uppercase tracking-wider',
+            isOngoing
+              ? 'border-accent/50 bg-accent/10 text-accent'
+              : 'border-outline bg-background text-foreground/60',
+          ]}
+        >
+          <span
+            class:list={[
+              'h-1.5 w-1.5 rounded-full',
+              isOngoing
+                ? 'bg-accent'
+                : 'bg-foreground/40',
+            ]}
+            aria-hidden="true"
+          ></span>
+
+          {isOngoing ? 'ONGOING' : 'COMPLETED'}
+        </span>
+      </span>
+    </span>
+
+    <!-- Expand / collapse icon -->
+    <span
+      class="mt-1 flex h-7 w-7 shrink-0 items-center
+             justify-center border border-outline
+             font-ui text-lg text-accent
+             transition-transform group-open:rotate-45"
+      aria-hidden="true"
+    >
+      +
+    </span>
+  </summary>
+
+  <!-- Expandable details -->
+  <div
+    class="space-y-4 border-t border-outline
+           px-4 pb-5 pt-4 sm:px-5"
+  >
+    <!-- Location -->
+    {entry.location && (
+      <p class="font-ui text-xs text-foreground/60">
+        LOCATION: {entry.location}
+      </p>
+    )}
+
+    <!-- Expected end date -->
+    {expectedEndDate && (
+      <p class="font-ui text-xs text-foreground/60">
+        EXPECTED END: {expectedEndDate}
+      </p>
+    )}
+
+    <!-- Description -->
+    <p class="text-sm leading-relaxed text-foreground/75">
+      {entry.description}
+    </p>
+
+    <!-- Quest log / highlights -->
+    {entry.highlights && entry.highlights.length > 0 && (
+      <div class="space-y-2">
+        <p class="font-ui text-xs text-accent">
+          QUEST LOG
+        </p>
+
+        <ul class="space-y-2">
+          {entry.highlights.map((highlight) => (
+            <li
+              class="flex gap-2 text-sm
+                     leading-relaxed text-foreground/75"
+            >
+              <span class="text-accent" aria-hidden="true">
+                ▸
+              </span>
+
+              <span>{highlight}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <!-- Tags -->
+    {entry.tags && entry.tags.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        {entry.tags.map((tag) => (
+          <span
+            class="border border-outline bg-background
+                   px-2.5 py-1 font-ui text-xs
+                   text-foreground/70"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- Optional external link -->
+    {entry.link && (
+      <a
+        href={entry.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2
+               font-ui text-xs text-accent
+               underline-offset-4 hover:underline
+               focus-visible:outline-2
+               focus-visible:outline-offset-2
+               focus-visible:outline-accent"
+      >
+        VIEW RELATED LINK
+        <span aria-hidden="true">↗</span>
+      </a>
+    )}
+  </div>
+</details>

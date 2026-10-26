@@ -1,17 +1,221 @@
+---
+import JourneyNode from '../components/JourneyNode.astro';
+import { journeyEntries } from '../data/journey';
+
+const newestFirst = [...journeyEntries].sort(
+  (a, b) => b.startDate.localeCompare(a.startDate)
+);
+
+const educationEntries = newestFirst.filter(
+  (entry) => entry.path === 'education'
+);
+
+const experienceEntries = newestFirst.filter(
+  (entry) => entry.path === 'experience'
+);
+---
+
 <section
   id="experience"
-  aria-labelledby="experience-title"
-  class="section-container border-t border-outline py-20 sm:py-28"
+  aria-labelledby="journey-title"
+  class="scroll-mt-24 py-20 sm:py-28"
 >
-  <p class="font-ui mb-4 text-xs tracking-widest text-accent">
-    [ CHAPTER 04 — THE JOURNEY ]
-  </p>
+  <div class="section-container">
+    <!-- Chapter heading -->
+    <div class="mb-12 max-w-2xl space-y-4">
+      <p
+        class="font-ui text-xs tracking-[0.2em] text-accent"
+      >
+        [ CHAPTER 04 — THE JOURNEY ]
+      </p>
 
-  <h2 id="experience-title" class="font-pixel mb-6 text-2xl sm:text-3xl">
-    EXPERIENCE
-  </h2>
+      <h2
+        id="journey-title"
+        class="font-pixel text-2xl leading-relaxed
+               text-foreground sm:text-3xl"
+      >
+        PATHS UNLOCKED.
+      </h2>
 
-  <div class="pixel-panel p-8 text-muted">
-    Internships, organizations, and relevant roles will appear here.
+      <p class="max-w-xl leading-relaxed text-foreground/70">
+        Different paths, overlapping experiences,
+        one continuing adventure.
+      </p>
+    </div>
+
+    {
+      journeyEntries.length === 0 ? (
+        <div class="pixel-panel p-8 text-center">
+          <p class="font-ui text-sm text-foreground/70">
+            Journey records are being prepared.
+          </p>
+        </div>
+      ) : (
+        <>
+          <!-- Mobile: chronological timeline -->
+          <div class="lg:hidden">
+            <div class="relative space-y-6 pl-8">
+              <div
+                class="absolute bottom-4 left-[9px] top-4
+                       w-px bg-outline"
+                aria-hidden="true"
+              />
+
+              {newestFirst.map((entry) => (
+                <div class="relative">
+                  <span
+                    class="absolute -left-8 top-6
+                           h-[19px] w-[19px]
+                           border-4 border-background
+                           bg-accent"
+                    aria-hidden="true"
+                  />
+
+                  <JourneyNode entry={entry} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Desktop: parallel skill-tree branches -->
+          <div class="hidden lg:block">
+            <div
+              class="mx-auto mb-0 flex w-fit flex-col
+                     items-center"
+            >
+              <div
+                class="border border-accent bg-surface
+                       px-6 py-3 text-center"
+              >
+                <span class="font-pixel text-sm text-accent">
+                  THE JOURNEY
+                </span>
+              </div>
+
+              <div
+                class="h-10 w-px bg-accent/60"
+                aria-hidden="true"
+              />
+            </div>
+
+            <div class="relative grid grid-cols-2 gap-12">
+              <!-- Horizontal branch connector -->
+              <div
+                class="pointer-events-none absolute
+                       left-1/4 right-1/4 top-0
+                       h-px bg-accent/60"
+                aria-hidden="true"
+              />
+
+              <!-- Education branch -->
+              <div class="relative">
+                <div
+                  class="absolute left-1/2 top-0
+                         h-10 w-px -translate-x-1/2
+                         bg-accent/60"
+                  aria-hidden="true"
+                />
+
+                <div
+                  class="mb-8 flex flex-col
+                         items-center pt-10"
+                >
+                  <span
+                    class="mb-3 h-3 w-3
+                           rotate-45 bg-accent"
+                    aria-hidden="true"
+                  />
+
+                  <h3
+                    class="font-ui text-sm uppercase
+                           tracking-[0.16em] text-accent"
+                  >
+                    Academic Path
+                  </h3>
+                </div>
+
+                <div class="relative space-y-7 pb-3">
+                  {educationEntries.length > 1 && (
+                    <div
+                      class="absolute bottom-10 left-1/2
+                             top-10 w-px -translate-x-1/2
+                             bg-outline"
+                      aria-hidden="true"
+                    />
+                  )}
+
+                  {educationEntries.map((entry) => (
+                    <div class="relative">
+                      <JourneyNode entry={entry} />
+                    </div>
+                  ))}
+
+                  {educationEntries.length === 0 && (
+                    <div class="pixel-panel p-5 text-center">
+                      <p class="font-ui text-xs text-foreground/60">
+                        No academic milestones added yet.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <!-- Career branch -->
+              <div class="relative">
+                <div
+                  class="absolute left-1/2 top-0
+                         h-10 w-px -translate-x-1/2
+                         bg-accent/60"
+                  aria-hidden="true"
+                />
+
+                <div
+                  class="mb-8 flex flex-col
+                         items-center pt-10"
+                >
+                  <span
+                    class="mb-3 h-3 w-3
+                           rotate-45 bg-accent"
+                    aria-hidden="true"
+                  />
+
+                  <h3
+                    class="font-ui text-sm uppercase
+                           tracking-[0.16em] text-accent"
+                  >
+                    Career Path
+                  </h3>
+                </div>
+
+                <div class="relative space-y-7 pb-3">
+                  {experienceEntries.length > 1 && (
+                    <div
+                      class="absolute bottom-10 left-1/2
+                             top-10 w-px -translate-x-1/2
+                             bg-outline"
+                      aria-hidden="true"
+                    />
+                  )}
+
+                  {experienceEntries.map((entry) => (
+                    <div class="relative">
+                      <JourneyNode entry={entry} />
+                    </div>
+                  ))}
+
+                  {experienceEntries.length === 0 && (
+                    <div class="pixel-panel p-5 text-center">
+                      <p class="font-ui text-xs text-foreground/60">
+                        No career milestones added yet.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    }
   </div>
 </section>
