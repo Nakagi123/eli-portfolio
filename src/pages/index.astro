@@ -1,34 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../sections/Hero.astro';
 ---
 
 <BaseLayout title="ELI.EXE | Portfolio">
-  <section class="section-container flex min-h-[75vh] flex-col items-start justify-center gap-7 py-20">
-    <p class="font-ui text-xs tracking-[0.2em] text-accent">
-      [ CHAPTER 00 — THE BEGINNING ]
-    </p>
-
-    <div class="space-y-4">
-      <h1 class="font-pixel max-w-3xl text-4xl leading-tight text-foreground sm:text-6xl">
-        A LITTLE CURIOUS.<br />
-        ALWAYS EXPLORING.
-      </h1>
-
-      <p class="max-w-xl text-lg leading-relaxed text-muted">
-        Hey, I'm Eli. Welcome to my little corner of the internet,
-        where code meets creativity.
-      </p>
-    </div>
-
-    <a href="#work" class="pixel-button">
-      <span aria-hidden="true">▶</span>
-      VIEW MY WORK
-    </a>
-
-    <p class="font-ui text-xs text-muted">
-      ↓ SCROLL TO EXPLORE
-    </p>
-  </section>
+  <Hero />
 
   <section id="work" class="section-container border-t border-outline py-24">
     <p class="font-ui mb-4 text-xs text-accent">

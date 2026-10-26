@@ -1,0 +1,160 @@
+<div class="door-scene" aria-hidden="true">
+  <svg
+    class="door-art"
+    viewBox="0 0 320 360"
+    xmlns="http://www.w3.org/2000/svg"
+    shape-rendering="crispEdges"
+  >
+    <defs>
+      <filter id="door-glow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="13" />
+      </filter>
+    </defs>
+
+    <!-- Soft rectangular glow behind the door -->
+    <rect
+      class="door-halo"
+      x="114"
+      y="55"
+      width="92"
+      height="230"
+      filter="url(#door-glow)"
+    />
+
+    <!-- Tiny atmospheric pixels -->
+    <g class="door-sparks">
+      <rect x="60" y="92" width="4" height="4" />
+      <rect x="252" y="116" width="4" height="4" />
+      <rect x="78" y="226" width="3" height="3" />
+      <rect x="238" y="248" width="3" height="3" />
+      <rect x="184" y="29" width="3" height="3" />
+    </g>
+
+    <!-- Pixelated outer doorway silhouette -->
+    <path
+      class="door-shadow"
+      d="M104 42 H216 V54 H228 V302 H92 V54 H104 Z"
+    />
+
+    <!-- Stone/frame border -->
+    <path
+      class="door-frame"
+      fill-rule="evenodd"
+      d="
+        M112 50 H208 V62 H220 V294 H100 V62 H112 Z
+        M124 74 V282 H196 V74 Z
+      "
+    />
+
+    <!-- Inner portal light -->
+    <rect class="door-light" x="124" y="74" width="72" height="208" />
+
+    <!-- Light depth: slightly darker near the edge -->
+    <rect class="door-inner-edge" x="124" y="74" width="8" height="208" />
+    <rect class="door-inner-edge" x="188" y="74" width="8" height="208" />
+
+    <!-- Bright central opening -->
+    <rect class="door-core" x="143" y="89" width="34" height="179" />
+
+    <!-- Pixel highlights -->
+    <rect class="door-highlight" x="108" y="62" width="8" height="24" />
+    <rect class="door-highlight" x="204" y="88" width="8" height="18" />
+    <rect class="door-highlight" x="108" y="248" width="8" height="20" />
+
+    <!-- Threshold -->
+    <rect class="door-shadow" x="84" y="294" width="152" height="8" />
+    <rect class="door-frame" x="72" y="302" width="176" height="8" />
+
+    <!-- Ground -->
+    <rect class="door-ground" x="44" y="324" width="232" height="2" />
+    <rect class="door-ground" x="84" y="336" width="152" height="2" />
+  </svg>
+</div>
+
+<style>
+  .door-scene {
+    --door-shadow: #111520;
+    --door-frame: #706687;
+    --door-light: #a997ce;
+    --door-core: #e9dcff;
+    --door-highlight: #cbb9ef;
+    --door-ground: #5b526d;
+
+    width: min(100%, 380px);
+    margin-inline: auto;
+    aspect-ratio: 320 / 360;
+  }
+
+  :global(html[data-theme="daybreak"]) .door-scene {
+    --door-shadow: #52485f;
+    --door-frame: #78658f;
+    --door-light: #c4a7e2;
+    --door-core: #fff7dc;
+    --door-highlight: #eee0ff;
+    --door-ground: #a79bb5;
+  }
+
+  .door-art {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .door-halo {
+    fill: var(--door-light);
+    opacity: 0.45;
+    animation: glow-pulse 5s ease-in-out infinite;
+  }
+
+  .door-shadow {
+    fill: var(--door-shadow);
+  }
+
+  .door-frame {
+    fill: var(--door-frame);
+  }
+
+  .door-light {
+    fill: var(--door-light);
+  }
+
+  .door-inner-edge {
+    fill: var(--door-frame);
+    opacity: 0.4;
+  }
+
+  .door-core {
+    fill: var(--door-core);
+  }
+
+  .door-highlight {
+    fill: var(--door-highlight);
+  }
+
+  .door-ground {
+    fill: var(--door-ground);
+    opacity: 0.55;
+  }
+
+  .door-sparks {
+    fill: var(--door-highlight);
+    opacity: 0.7;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.35;
+    }
+
+    50% {
+      opacity: 0.55;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .door-halo {
+      animation: none;
+    }
+  }
+</style>

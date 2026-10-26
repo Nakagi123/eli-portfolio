@@ -1,0 +1,48 @@
+---
+import PixelDoor from '../components/PixelDoor.astro';
+---
+
+<section
+  aria-labelledby="hero-title"
+  class="section-container grid min-h-[calc(100svh-5rem)] grid-cols-1 items-center gap-8 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:py-20"
+>
+  <!-- Text -->
+  <div class="order-2 flex flex-col items-start gap-7 md:order-1">
+    <p class="font-ui text-[11px] tracking-[0.15em] text-accent sm:text-xs">
+      [ CHAPTER 00 — THE BEGINNING ]
+    </p>
+
+    <div class="space-y-5">
+      <h1
+        id="hero-title"
+        class="font-pixel max-w-2xl text-[clamp(1.7rem,4.5vw,3.7rem)] leading-[1.3] tracking-tight text-foreground"
+      >
+        A LITTLE CURIOUS.
+        <span class="block text-accent">ALWAYS EXPLORING.</span>
+      </h1>
+
+      <p class="max-w-lg text-base leading-relaxed text-muted sm:text-lg">
+        Hey, I'm Eli. Welcome to my little corner of the internet,
+        where code meets creativity.
+      </p>
+    </div>
+
+    <a href="#work" class="pixel-button">
+      <span aria-hidden="true">▶</span>
+      VIEW MY WORK
+    </a>
+
+    <p class="font-ui text-[11px] tracking-wide text-muted">
+      ↓ SCROLL TO EXPLORE
+    </p>
+  </div>
+
+  <!-- Doorway -->
+  <div
+    class="order-1 flex w-full items-center justify-center md:order-2"
+  >
+    <div class="w-full max-w-[220px] sm:max-w-[290px] md:max-w-[380px]">
+      <PixelDoor />
+    </div>
+  </div>
+</section>
