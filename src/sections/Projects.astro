@@ -1,5 +1,7 @@
 ---
 import TreasureChest from '../components/TreasureChest.astro';
+import ProjectInventory from '../components/ProjectInventory.astro';
+import { featuredProjects } from '../data/projects';
 ---
 
 <section
@@ -15,8 +17,7 @@ import TreasureChest from '../components/TreasureChest.astro';
 
       <h2
         id="projects-title"
-        class="font-pixel text-2xl leading-relaxed
-               text-foreground sm:text-3xl"
+        class="font-pixel text-2xl leading-relaxed text-foreground sm:text-3xl"
       >
         THE CHEST OF CREATIONS.
       </h2>
@@ -26,6 +27,65 @@ import TreasureChest from '../components/TreasureChest.astro';
       </p>
     </div>
 
-    <TreasureChest />
+    <div data-project-vault class="flex flex-col items-center">
+      <!-- Inventory appears ABOVE the chest -->
+      <div
+        data-inventory-wrapper
+        class="grid w-full max-w-[650px] grid-rows-[0fr] transition-[grid-template-rows] duration-500"
+      >
+        <div class="min-h-0 overflow-hidden">
+          <ProjectInventory projects={featuredProjects} />
+        </div>
+      </div>
+
+      <TreasureChest />
+    </div>
   </div>
 </section>
+
+<script>
+  function setupProjectVault() {
+    const vault = document.querySelector<HTMLElement>(
+      '[data-project-vault]'
+    );
+
+    if (!vault || vault.dataset.initialized === 'true') return;
+
+    const chest = vault.querySelector<HTMLElement>(
+      '[data-treasure-chest]'
+    );
+
+    const button = vault.querySelector<HTMLButtonElement>(
+      '[data-chest-toggle]'
+    );
+
+    const inventory = vault.querySelector<HTMLElement>(
+      '[data-project-inventory]'
+    );
+
+    const wrapper = vault.querySelector<HTMLElement>(
+      '[data-inventory-wrapper]'
+    );
+
+    if (!chest || !button || !inventory || !wrapper) return;
+
+    vault.dataset.initialized = 'true';
+
+    button.setAttribute('aria-controls', 'project-inventory');
+
+    button.addEventListener('click', () => {
+      // TreasureChest updates its own .is-open state.
+      const isOpen = chest.classList.contains('is-open');
+
+      inventory.classList.toggle('is-visible', isOpen);
+      inventory.inert = !isOpen;
+
+      wrapper.classList.toggle('grid-rows-[1fr]', isOpen);
+      wrapper.classList.toggle('grid-rows-[0fr]', !isOpen);
+    });
+  }
+
+  setupProjectVault();
+
+  document.addEventListener('astro:page-load', setupProjectVault);
+</script>
