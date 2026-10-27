@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
+
 import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title?: string;
@@ -44,13 +46,7 @@ const {
       <slot />
     </main>
 
-    <footer class="border-t border-outline py-8">
-      <div
-        class="section-container font-ui flex flex-wrap items-center justify-between gap-3 text-xs text-muted"
-      >
-        <span>© {new Date().getFullYear()} ELI.EXE</span>
-        <span>MADE WITH CURIOSITY ✦</span>
-      </div>
-    </footer>
+    <!-- Full portfolio footer -->
+    <Footer />
   </body>
 </html>
