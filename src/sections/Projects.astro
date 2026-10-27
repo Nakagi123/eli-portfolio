@@ -7,9 +7,10 @@ import { featuredProjects } from '../data/projects';
 <section
   id="projects"
   aria-labelledby="projects-title"
-  class="relative overflow-hidden py-20 sm:py-28"
+  class="relative py-20 sm:py-28"
 >
   <div class="section-container">
+    <!-- Chapter heading -->
     <div class="mx-auto mb-10 max-w-2xl space-y-4 text-center">
       <p class="font-ui text-xs tracking-[0.2em] text-accent">
         [ CHAPTER 02 — THE WORK ARCHIVE ]
@@ -27,17 +28,26 @@ import { featuredProjects } from '../data/projects';
       </p>
     </div>
 
-    <div data-project-vault class="flex flex-col items-center">
-      <!-- Inventory appears ABOVE the chest -->
+    <!-- Enchanted project vault -->
+    <div
+      data-project-vault
+      class="flex flex-col items-center"
+    >
+      <!-- Inventory expands ABOVE the chest -->
       <div
         data-inventory-wrapper
-        class="grid w-full max-w-[650px] grid-rows-[0fr] transition-[grid-template-rows] duration-500"
+        class="inventory-wrapper grid w-full max-w-[650px] grid-rows-[0fr] transition-[grid-template-rows] duration-500"
       >
-        <div class="min-h-0 overflow-hidden">
+        <!-- Clip inventory only during opening/closing -->
+        <div
+          data-inventory-clip
+          class="inventory-clip min-h-0 overflow-hidden"
+        >
           <ProjectInventory projects={featuredProjects} />
         </div>
       </div>
 
+      <!-- Interactive treasure chest -->
       <TreasureChest />
     </div>
   </div>
@@ -49,7 +59,9 @@ import { featuredProjects } from '../data/projects';
       '[data-project-vault]'
     );
 
-    if (!vault || vault.dataset.initialized === 'true') return;
+    if (!vault || vault.dataset.initialized === 'true') {
+      return;
+    }
 
     const chest = vault.querySelector<HTMLElement>(
       '[data-treasure-chest]'
@@ -67,25 +79,142 @@ import { featuredProjects } from '../data/projects';
       '[data-inventory-wrapper]'
     );
 
-    if (!chest || !button || !inventory || !wrapper) return;
+    const clip = vault.querySelector<HTMLElement>(
+      '[data-inventory-clip]'
+    );
+
+    // Stop if any required element is missing.
+    if (!chest || !button || !inventory || !wrapper || !clip) {
+      return;
+    }
+
+    // Stable references prevent TypeScript null errors
+    // inside nested functions and event callbacks.
+    const chestElement = chest;
+    const buttonElement = button;
+    const inventoryElement = inventory;
+    const wrapperElement = wrapper;
+    const clipElement = clip;
 
     vault.dataset.initialized = 'true';
 
-    button.setAttribute('aria-controls', 'project-inventory');
+    buttonElement.setAttribute(
+      'aria-controls',
+      'project-inventory'
+    );
 
-    button.addEventListener('click', () => {
-      // TreasureChest updates its own .is-open state.
-      const isOpen = chest.classList.contains('is-open');
+    let isOpen = chestElement.classList.contains('is-open');
 
-      inventory.classList.toggle('is-visible', isOpen);
-      inventory.inert = !isOpen;
+    // ------------------------------------------------------
+    // Synchronize the chest and inventory
+    // ------------------------------------------------------
+    function syncInventory(open: boolean) {
+      isOpen = open;
 
-      wrapper.classList.toggle('grid-rows-[1fr]', isOpen);
-      wrapper.classList.toggle('grid-rows-[0fr]', !isOpen);
+      // Show or hide the inventory.
+      inventoryElement.classList.toggle('is-visible', open);
+      inventoryElement.inert = !open;
+
+      // Animate the inventory's height.
+      wrapperElement.classList.toggle(
+        'grid-rows-[1fr]',
+        open
+      );
+
+      wrapperElement.classList.toggle(
+        'grid-rows-[0fr]',
+        !open
+      );
+
+      // Clip content while the inventory animates.
+      wrapperElement.classList.remove('is-expanded');
+
+      clipElement.classList.remove('overflow-visible');
+      clipElement.classList.add('overflow-hidden');
+    }
+
+    // ------------------------------------------------------
+    // Release clipping after the opening animation
+    // ------------------------------------------------------
+    wrapperElement.addEventListener(
+      'transitionend',
+      (event) => {
+        if (
+          event.target !== wrapperElement ||
+          event.propertyName !== 'grid-template-rows'
+        ) {
+          return;
+        }
+
+        if (isOpen) {
+          wrapperElement.classList.add('is-expanded');
+
+          clipElement.classList.remove('overflow-hidden');
+          clipElement.classList.add('overflow-visible');
+        }
+      }
+    );
+
+    // ------------------------------------------------------
+    // React to the chest's toggle button
+    // ------------------------------------------------------
+    buttonElement.addEventListener('click', () => {
+      // TreasureChest handles its own .is-open class.
+      const open = chestElement.classList.contains('is-open');
+
+      syncInventory(open);
     });
+
+    // ------------------------------------------------------
+    // Reduced-motion accessibility
+    // ------------------------------------------------------
+    const reducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    );
+
+    function applyReducedMotion() {
+      if (reducedMotion.matches && isOpen) {
+        wrapperElement.classList.add('is-expanded');
+
+        clipElement.classList.remove('overflow-hidden');
+        clipElement.classList.add('overflow-visible');
+      }
+    }
+
+    reducedMotion.addEventListener(
+      'change',
+      applyReducedMotion
+    );
+
+    // Initialize the inventory state.
+    syncInventory(isOpen);
+    applyReducedMotion();
   }
 
+  // Initial page load.
   setupProjectVault();
 
-  document.addEventListener('astro:page-load', setupProjectVault);
+  // Reinitialize after Astro client-side navigation.
+  document.addEventListener(
+    'astro:page-load',
+    setupProjectVault
+  );
 </script>
+
+<style>
+  .inventory-wrapper {
+    position: relative;
+  }
+
+  /* Allow tooltips to extend beyond the inventory
+     after the opening animation finishes. */
+  .inventory-wrapper.is-expanded {
+    overflow: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .inventory-wrapper {
+      transition: none;
+    }
+  }
+</style>
