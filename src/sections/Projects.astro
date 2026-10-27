@@ -1,17 +1,31 @@
+---
+import TreasureChest from '../components/TreasureChest.astro';
+---
+
 <section
-  id="work"
+  id="projects"
   aria-labelledby="projects-title"
-  class="section-container border-t border-outline py-20 sm:py-28"
+  class="relative overflow-hidden py-20 sm:py-28"
 >
-  <p class="font-ui mb-4 text-xs tracking-widest text-accent">
-    [ CHAPTER 02 — THE WORK ARCHIVE ]
-  </p>
+  <div class="section-container">
+    <div class="mx-auto mb-10 max-w-2xl space-y-4 text-center">
+      <p class="font-ui text-xs tracking-[0.2em] text-accent">
+        [ CHAPTER 02 — THE WORK ARCHIVE ]
+      </p>
 
-  <h2 id="projects-title" class="font-pixel mb-6 text-2xl sm:text-3xl">
-    SELECTED PROJECTS
-  </h2>
+      <h2
+        id="projects-title"
+        class="font-pixel text-2xl leading-relaxed
+               text-foreground sm:text-3xl"
+      >
+        THE CHEST OF CREATIONS.
+      </h2>
 
-  <div class="pixel-panel p-8 text-muted">
-    Project cards are coming soon.
+      <p class="text-foreground/80">
+        Every artifact holds a story. Unlock the chest to discover mine.
+      </p>
+    </div>
+
+    <TreasureChest />
   </div>
 </section>

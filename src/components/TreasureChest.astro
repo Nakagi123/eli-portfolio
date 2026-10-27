@@ -1,0 +1,349 @@
+<div class="chest-scene mx-auto w-full max-w-[460px]" data-treasure-chest>
+  <div class="relative mx-auto aspect-[360/290] w-full">
+    <!-- Magical glow behind the chest -->
+    <div class="chest-aura pointer-events-none absolute inset-0"></div>
+
+    <svg
+      viewBox="0 0 360 290"
+      class="relative h-full w-full overflow-visible"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="An enchanted treasure chest with a glowing lavender lock"
+    >
+      <defs>
+        <radialGradient id="chest-magic-aura">
+          <stop offset="0%" stop-color="#B5A2D0" stop-opacity="0.35" />
+          <stop offset="100%" stop-color="#B5A2D0" stop-opacity="0" />
+        </radialGradient>
+
+        <filter id="chest-lock-glow">
+          <feGaussianBlur stdDeviation="5" />
+        </filter>
+      </defs>
+
+      <!-- Background aura -->
+      <ellipse
+        cx="180"
+        cy="165"
+        rx="150"
+        ry="115"
+        fill="url(#chest-magic-aura)"
+      />
+
+      <!-- Ground shadow -->
+      <ellipse
+        cx="180"
+        cy="259"
+        rx="124"
+        ry="14"
+        fill="#B5A2D0"
+        opacity="0.13"
+      />
+
+      <!-- Light escaping from the open chest -->
+      <g class="chest-light">
+        <path
+          d="M93 157 L55 36 H305 L267 157 Z"
+          fill="#B5A2D0"
+          opacity="0.17"
+        />
+        <path
+          d="M124 157 L105 62 H255 L236 157 Z"
+          fill="#E1D1F4"
+          opacity="0.15"
+        />
+      </g>
+
+      <!-- Interior, visible when open -->
+      <g class="chest-interior">
+        <rect x="73" y="146" width="214" height="31" fill="#181521" />
+        <rect x="86" y="153" width="188" height="15" fill="#8D75B2" />
+        <rect x="104" y="157" width="152" height="8" fill="#D8C7ED" />
+      </g>
+
+      <!-- Chest lid -->
+      <g class="chest-lid" shape-rendering="crispEdges">
+        <!-- Dark outline -->
+        <path
+          d="M68 147 V112 H82 V94 H102 V81
+             H258 V94 H278 V112 H292 V147 Z"
+          fill="#24202F"
+          stroke="#15121D"
+          stroke-width="5"
+        />
+
+        <!-- Enchanted wood -->
+        <path
+          d="M77 141 V115 H91 V101 H109 V90
+             H251 V101 H269 V115 H283 V141 Z"
+          fill="#493849"
+        />
+
+        <!-- Wood grain -->
+        <rect x="109" y="101" width="142" height="8" fill="#5F4960" />
+        <rect x="95" y="119" width="170" height="7" fill="#382B3E" />
+        <rect x="112" y="132" width="136" height="5" fill="#654D66" />
+
+        <!-- Metal corner plates -->
+        <path d="M77 114 H95 V141 H77 Z" fill="#8C789A" />
+        <path d="M265 114 H283 V141 H265 Z" fill="#8C789A" />
+        <rect x="77" y="114" width="18" height="6" fill="#B5A2D0" />
+        <rect x="265" y="114" width="18" height="6" fill="#B5A2D0" />
+
+        <!-- Lavender runes -->
+        <g fill="#C7B2E8" class="chest-runes">
+          <path d="M117 115 H122 V126 H117 Z M112 120 H127 V124 H112 Z" />
+          <path d="M237 115 H242 V126 H237 Z M232 120 H247 V124 H232 Z" />
+          <path d="M151 112 H155 V126 H151 Z M155 118 H161 V122 H155 Z" />
+          <path d="M205 112 H209 V126 H205 Z M199 118 H205 V122 H199 Z" />
+        </g>
+      </g>
+
+      <!-- Chest base -->
+      <g shape-rendering="crispEdges">
+        <!-- Outline -->
+        <path
+          d="M66 148 H294 V238 H281 V250 H79 V238 H66 Z"
+          fill="#211B2B"
+          stroke="#15121D"
+          stroke-width="5"
+        />
+
+        <!-- Wood body -->
+        <rect x="75" y="156" width="210" height="78" fill="#493849" />
+        <rect x="85" y="166" width="190" height="57" fill="#59445A" />
+
+        <!-- Wood texture -->
+        <rect x="95" y="174" width="70" height="5" fill="#715672" />
+        <rect x="194" y="185" width="69" height="5" fill="#3A2D40" />
+        <rect x="101" y="207" width="88" height="5" fill="#3A2D40" />
+        <rect x="204" y="215" width="51" height="4" fill="#715672" />
+
+        <!-- Metal bands -->
+        <rect x="92" y="151" width="14" height="88" fill="#87728F" />
+        <rect x="254" y="151" width="14" height="88" fill="#87728F" />
+
+        <rect x="92" y="151" width="5" height="88" fill="#B5A2D0" />
+        <rect x="254" y="151" width="5" height="88" fill="#B5A2D0" />
+
+        <!-- Bottom metal trim -->
+        <rect x="75" y="230" width="210" height="9" fill="#74617D" />
+
+        <!-- Decorative runes -->
+        <g fill="#A58FCB" class="chest-runes">
+          <path d="M126 184 H131 V198 H126 Z M121 189 H136 V193 H121 Z" />
+          <path d="M229 184 H234 V198 H229 Z M224 189 H239 V193 H224 Z" />
+          <rect x="175" y="210" width="10" height="4" />
+          <rect x="178" y="207" width="4" height="10" />
+        </g>
+      </g>
+
+      <!-- Glowing lock: decorative SVG, interactive button overlays it -->
+      <g class="chest-lock" shape-rendering="crispEdges">
+        <!-- Glow -->
+        <rect
+          x="157"
+          y="144"
+          width="46"
+          height="53"
+          rx="5"
+          fill="#B5A2D0"
+          opacity="0.7"
+          filter="url(#chest-lock-glow)"
+          class="lock-glow"
+        />
+
+        <!-- Lock frame -->
+        <rect x="157" y="146" width="46" height="51" fill="#30273D" />
+        <rect x="162" y="151" width="36" height="41" fill="#B5A2D0" />
+        <rect x="168" y="157" width="24" height="29" fill="#E0D0F3" />
+
+        <!-- Keyhole -->
+        <rect x="176" y="164" width="8" height="9" fill="#30273D" />
+        <rect x="178" y="171" width="4" height="9" fill="#30273D" />
+      </g>
+
+      <!-- Magic particles -->
+      <g class="chest-particles" fill="#DCC9F2">
+        <rect x="68" y="74" width="5" height="5" />
+        <rect x="285" y="64" width="4" height="4" />
+        <rect x="144" y="43" width="5" height="5" />
+        <rect x="232" y="38" width="4" height="4" />
+        <rect x="303" y="113" width="5" height="5" />
+      </g>
+    </svg>
+
+    <!-- Clickable lock button -->
+    <button
+      type="button"
+      data-chest-toggle
+      aria-expanded="false"
+      aria-label="Unlock the treasure chest"
+      class="chest-lock-button absolute left-1/2 top-[59%]
+             z-10 flex h-16 w-16 -translate-x-1/2
+             -translate-y-1/2 items-center justify-center
+             rounded-sm focus-visible:outline-2
+             focus-visible:outline-offset-4
+             focus-visible:outline-accent"
+    >
+      <span class="sr-only">Unlock the treasure chest</span>
+    </button>
+  </div>
+
+  <!-- Interaction hint -->
+  <div class="mt-2 text-center">
+    <p
+      data-chest-status
+      class="font-pixel text-[10px] tracking-wide text-accent"
+      aria-live="polite"
+    >
+      ✦ A MYSTERIOUS CHEST APPEARS ✦
+    </p>
+
+    <p class="mt-3 font-ui text-xs text-foreground/70">
+      <span data-chest-hint>Click the glowing lock to open it.</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  function setupTreasureChest() {
+    const root = document.querySelector<HTMLElement>(
+      '[data-treasure-chest]'
+    );
+
+    if (!root || root.dataset.initialized === 'true') return;
+
+    const toggle = root.querySelector<HTMLButtonElement>(
+      '[data-chest-toggle]'
+    );
+
+    const status = root.querySelector<HTMLElement>(
+      '[data-chest-status]'
+    );
+
+    const hint = root.querySelector<HTMLElement>(
+      '[data-chest-hint]'
+    );
+
+    if (!toggle || !status || !hint) return;
+
+    root.dataset.initialized = 'true';
+
+    let isOpen = false;
+
+    toggle.addEventListener('click', () => {
+      isOpen = !isOpen;
+
+      root.classList.toggle('is-open', isOpen);
+
+      toggle.setAttribute('aria-expanded', String(isOpen));
+
+      toggle.setAttribute(
+        'aria-label',
+        isOpen ? 'Close the treasure chest' : 'Unlock the treasure chest'
+      );
+
+      status.textContent = isOpen
+        ? '✦ THE CHEST HAS BEEN UNLOCKED ✦'
+        : '✦ A MYSTERIOUS CHEST APPEARS ✦';
+
+      hint.textContent = isOpen
+        ? 'The treasures inside await discovery.'
+        : 'Click the glowing lock to open it.';
+    });
+  }
+
+  setupTreasureChest();
+
+  document.addEventListener(
+    'astro:page-load',
+    setupTreasureChest
+  );
+</script>
+
+<style>
+  .chest-scene {
+    position: relative;
+  }
+
+  .chest-lid {
+    transform-origin: 180px 147px;
+    transition: transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .chest-light,
+  .chest-interior {
+    opacity: 0;
+    transition: opacity 450ms ease;
+  }
+
+  .chest-runes {
+    animation: rune-pulse 2.5s ease-in-out infinite;
+  }
+
+  .lock-glow {
+    animation: lock-pulse 1.8s ease-in-out infinite;
+  }
+
+  .chest-particles {
+    opacity: 0.35;
+    transition: opacity 450ms ease;
+  }
+
+  .chest-lock-button {
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .chest-lock-button:hover {
+    box-shadow: 0 0 25px rgba(181, 162, 208, 0.15);
+  }
+
+  .is-open .chest-lid {
+    transform: translateY(-48px) scaleY(0.6);
+  }
+
+  .is-open .chest-light,
+  .is-open .chest-interior {
+    opacity: 1;
+  }
+
+  .is-open .chest-particles {
+    opacity: 1;
+  }
+
+  @keyframes rune-pulse {
+    0%, 100% {
+      opacity: 0.5;
+    }
+
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes lock-pulse {
+    0%, 100% {
+      opacity: 0.35;
+    }
+
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chest-lid,
+    .chest-light,
+    .chest-interior,
+    .chest-particles {
+      transition: none;
+    }
+
+    .chest-runes,
+    .lock-glow {
+      animation: none;
+    }
+  }
+</style>
