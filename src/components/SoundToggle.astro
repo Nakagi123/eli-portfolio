@@ -1,0 +1,108 @@
+---
+---
+
+<button
+  type="button"
+  data-sound-toggle
+  data-sound-ignore
+  class="inline-flex h-10 w-10 items-center justify-center border border-outline bg-surface text-foreground transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+  aria-label="Enable sound effects"
+  aria-pressed="false"
+  title="Enable sound effects"
+>
+  <svg
+    data-sound-on-icon
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    class="hidden"
+  >
+    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+    <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+    <path d="M19 5a10 10 0 0 1 0 14" />
+  </svg>
+
+  <svg
+    data-sound-off-icon
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+    <path d="m16 9 5 6" />
+    <path d="m21 9-5 6" />
+  </svg>
+</button>
+
+<script>
+  import {
+    initializeSound,
+    isSoundEnabled,
+    toggleSound,
+  } from '../scripts/soundEffects';
+
+  function setupSoundToggle() {
+    initializeSound();
+
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      '[data-sound-toggle]'
+    );
+
+    function updateButtons() {
+      const enabled = isSoundEnabled();
+
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(enabled));
+
+        const label = enabled
+          ? 'Disable sound effects'
+          : 'Enable sound effects';
+
+        button.setAttribute('aria-label', label);
+        button.title = label;
+
+        button
+          .querySelector('[data-sound-on-icon]')
+          ?.classList.toggle('hidden', !enabled);
+
+        button
+          .querySelector('[data-sound-off-icon]')
+          ?.classList.toggle('hidden', enabled);
+      });
+    }
+
+    buttons.forEach((button) => {
+      if (button.dataset.soundReady === 'true') return;
+
+      button.dataset.soundReady = 'true';
+
+      button.addEventListener('click', () => {
+        toggleSound();
+        updateButtons();
+      });
+    });
+
+    updateButtons();
+  }
+
+  setupSoundToggle();
+
+  document.addEventListener(
+    'astro:page-load',
+    setupSoundToggle
+  );
+</script>

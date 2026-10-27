@@ -1,5 +1,6 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import SoundToggle from './SoundToggle.astro';
 
 const links = [
   { label: 'Skills', href: '/#skills' },
@@ -15,7 +16,11 @@ const links = [
     class="section-container flex min-h-20 flex-wrap items-center justify-between gap-3 py-3"
     aria-label="Main navigation"
   >
-    <a href="/" class="font-pixel text-lg text-accent">
+    <!-- Website logo -->
+    <a
+      href="/"
+      class="font-pixel text-lg text-accent"
+    >
       ELI.EXE
     </a>
 
@@ -32,14 +37,21 @@ const links = [
           >
             ▶
           </span>
+
           {link.label}
         </a>
       ))}
     </div>
 
+    <!-- Theme, sound, and mobile menu controls -->
     <div class="flex items-center gap-3">
+      <!-- Enable / disable sound effects -->
+      <SoundToggle />
+
+      <!-- Midnight / Daybreak theme toggle -->
       <ThemeToggle />
 
+      <!-- Mobile navigation button -->
       <button
         id="menu-toggle"
         type="button"
@@ -48,7 +60,12 @@ const links = [
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
-        <span id="menu-icon" aria-hidden="true">☰</span>
+        <span
+          id="menu-icon"
+          aria-hidden="true"
+        >
+          ☰
+        </span>
       </button>
     </div>
 
@@ -64,7 +81,13 @@ const links = [
             href={link.href}
             class="font-ui mobile-nav-link flex min-h-11 items-center gap-3 px-2 text-sm text-muted hover:bg-surface hover:text-accent"
           >
-            <span aria-hidden="true" class="text-accent">▶</span>
+            <span
+              aria-hidden="true"
+              class="text-accent"
+            >
+              ▶
+            </span>
+
             {link.label}
           </a>
         ))}
@@ -75,47 +98,110 @@ const links = [
 
 <script>
   function setupMobileMenu() {
-    const button = document.querySelector<HTMLButtonElement>('#menu-toggle');
-    const menu = document.querySelector<HTMLElement>('#mobile-menu');
-    const icon = document.querySelector<HTMLElement>('#menu-icon');
+    const button = document.querySelector<HTMLButtonElement>(
+      '#menu-toggle'
+    );
 
-    if (!button || !menu || !icon) return;
-    if (button.dataset.initialized === 'true') return;
+    const menu = document.querySelector<HTMLElement>(
+      '#mobile-menu'
+    );
 
-    button.dataset.initialized = 'true';
+    const icon = document.querySelector<HTMLElement>(
+      '#menu-icon'
+    );
 
-    function setOpen(open: boolean) {
-      menu!.hidden = !open;
-      menu!.classList.toggle('hidden', !open);
-      button!.setAttribute('aria-expanded', String(open));
-      button!.setAttribute(
-        'aria-label',
-        open ? 'Close navigation menu' : 'Open navigation menu'
-      );
-      icon!.textContent = open ? '×' : '☰';
+    if (!button || !menu || !icon) {
+      return;
     }
 
+    if (button.dataset.initialized === 'true') {
+      return;
+    }
+
+    // Stable references for TypeScript inside callbacks.
+    const menuButton = button;
+    const mobileMenu = menu;
+    const menuIcon = icon;
+
+    menuButton.dataset.initialized = 'true';
+
+    // ------------------------------------------------------
+    // Open / close the mobile navigation
+    // ------------------------------------------------------
+    function setOpen(open: boolean) {
+      mobileMenu.hidden = !open;
+
+      mobileMenu.classList.toggle(
+        'hidden',
+        !open
+      );
+
+      menuButton.setAttribute(
+        'aria-expanded',
+        String(open)
+      );
+
+      menuButton.setAttribute(
+        'aria-label',
+        open
+          ? 'Close navigation menu'
+          : 'Open navigation menu'
+      );
+
+      menuIcon.textContent = open ? '×' : '☰';
+    }
+
+    // Always start with the mobile menu closed.
     setOpen(false);
 
-    button.addEventListener('click', () => {
-      setOpen(button.getAttribute('aria-expanded') !== 'true');
+    // ------------------------------------------------------
+    // Mobile menu button
+    // ------------------------------------------------------
+    menuButton.addEventListener('click', () => {
+      const currentlyOpen =
+        menuButton.getAttribute('aria-expanded') === 'true';
+
+      setOpen(!currentlyOpen);
     });
 
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => setOpen(false));
+    // ------------------------------------------------------
+    // Close the menu after choosing a chapter
+    // ------------------------------------------------------
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        setOpen(false);
+      });
     });
 
+    // ------------------------------------------------------
+    // Escape key closes the mobile menu
+    // ------------------------------------------------------
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
     });
 
-    // Reset menu when returning to desktop width.
-    const desktop = window.matchMedia('(min-width: 1024px)');
+    // ------------------------------------------------------
+    // Close the mobile menu when switching to desktop
+    // ------------------------------------------------------
+    const desktop = window.matchMedia(
+      '(min-width: 1024px)'
+    );
+
     desktop.addEventListener('change', (event) => {
-      if (event.matches) setOpen(false);
+      if (event.matches) {
+        setOpen(false);
+      }
     });
   }
 
+  // Initial page load.
   setupMobileMenu();
-  document.addEventListener('astro:page-load', setupMobileMenu);
+
+  // Astro client-side navigation support.
+  document.addEventListener(
+    'astro:page-load',
+    setupMobileMenu
+  );
 </script>

@@ -1,0 +1,111 @@
+---
+---
+
+<script>
+  import {
+    initializeSound,
+    playSound,
+    type SoundName,
+  } from '../scripts/soundEffects';
+
+  const ATTRIBUTE = 'data-sound';
+
+    function getSound(target: HTMLElement): SoundName | null {
+    // The sound toggle should always remain silent.
+    if (target.closest('[data-sound-ignore]')) {
+        return null;
+    }
+
+    // Chest opening and closing have different sounds.
+    if (target.closest('[data-chest-toggle]')) {
+        const chest = document.querySelector<HTMLElement>(
+        '[data-treasure-chest]'
+        );
+
+        // The chest's click handler has already toggled
+        // the is-open class by the time this document
+        // listener runs.
+        const isNowOpen = chest?.classList.contains('is-open');
+
+        return isNowOpen ? 'chest-open' : 'chest-close';
+    }
+
+    // Explicit sound assignments.
+    const explicit = target.closest<HTMLElement>('[data-sound]');
+
+    if (explicit) {
+        const value = explicit.dataset.sound;
+
+        if (
+        value === 'click' ||
+        value === 'chest-open' ||
+        value === 'chest-close' ||
+        value === 'item-select' ||
+        value === 'back'
+        ) {
+        return value;
+        }
+    }
+
+    // Project artifact selection.
+    if (
+        target.closest(
+        '[data-project-inventory] a[href^="/projects/"]'
+        )
+    ) {
+        return 'item-select';
+    }
+
+    // Back or close interactions.
+    if (
+        target.closest(
+        '[data-lightbox-close], [data-back-button]'
+        )
+    ) {
+        return 'back';
+    }
+
+    // Generic buttons and links.
+    if (
+        target.closest('button, a, [role="button"]')
+    ) {
+        return 'click';
+    }
+
+    return null;
+    }
+
+  function setupSoundController() {
+    initializeSound();
+
+    // Only install one global listener.
+    const globalWindow = window as Window & {
+    __eliSoundControllerReady?: boolean;
+    };
+
+    if (globalWindow.__eliSoundControllerReady) return;
+
+    globalWindow.__eliSoundControllerReady = true;
+
+    document.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+
+      const target = event.target.closest<HTMLElement>('*');
+
+      if (!target) return;
+
+      const sound = getSound(target);
+
+      if (sound) {
+        playSound(sound);
+      }
+    });
+  }
+
+  setupSoundController();
+
+  document.addEventListener(
+    'astro:page-load',
+    setupSoundController
+  );
+</script>

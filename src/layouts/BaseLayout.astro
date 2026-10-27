@@ -3,6 +3,7 @@ import '../styles/global.css';
 
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import SoundController from '../components/SoundController.astro';
 
 interface Props {
   title?: string;
@@ -24,6 +25,7 @@ const {
     <meta name="theme-color" content="#191f2b" />
     <title>{title}</title>
 
+    <!-- Restore the visitor's preferred theme -->
     <script is:inline>
       (() => {
         try {
@@ -40,13 +42,18 @@ const {
   </head>
 
   <body>
+    <!-- Main navigation -->
     <Navbar />
 
+    <!-- Portfolio content -->
     <main id="main-content">
       <slot />
     </main>
 
     <!-- Full portfolio footer -->
     <Footer />
+
+    <!-- Global sound effects controller -->
+    <SoundController />
   </body>
 </html>
