@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScreenshotLightbox from '../../components/ScreenshotLightbox.astro';
+
 import {
   allProjects,
   type Project,
@@ -270,24 +272,10 @@ const hasScreenshots =
                   04 / MEMORY FRAGMENTS
                 </h2>
 
-                <div class="grid gap-4 sm:grid-cols-2">
-                  {project.screenshots!.map((screenshot, i) => (
-                    <a
-                      href={screenshot}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="block overflow-hidden border border-outline bg-surface transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-accent"
-                      aria-label={`Open screenshot ${i + 1} of ${project.title}`}
-                    >
-                      <img
-                        src={screenshot}
-                        alt={`${project.title} screenshot ${i + 1}`}
-                        loading="lazy"
-                        class="aspect-video w-full object-cover"
-                      />
-                    </a>
-                  ))}
-                </div>
+                <ScreenshotLightbox
+                  screenshots={project.screenshots!}
+                  projectTitle={project.title}
+                />
               </section>
             )
           }
@@ -414,5 +402,5 @@ const hasScreenshots =
         </a>
       </div>
     </div>
-</div>
+  </div>
 </BaseLayout>

@@ -115,11 +115,11 @@ export const projects: Project[] = [
 
     // SCREENSHOT GALLERY
     // Files go inside public/projects/project-alpha/
-    // screenshots: [
-    //   '/projects/project-alpha/screenshot-1.png',
-    //   '/projects/project-alpha/screenshot-2.png',
-    //   '/projects/project-alpha/screenshot-3.png',
-    // ],
+    screenshots: [
+      '/projects/project-alpha/screenshot-1.png',
+      '/projects/project-alpha/screenshot-2.png',
+      '/projects/project-alpha/screenshot-3.png',
+    ],
   },
 
   // ========================================================

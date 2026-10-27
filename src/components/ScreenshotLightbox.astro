@@ -1,0 +1,392 @@
+---
+interface Props {
+  screenshots: string[];
+  projectTitle: string;
+}
+
+const { screenshots, projectTitle } = Astro.props;
+---
+
+{
+  screenshots.length > 0 && (
+    <div data-screenshot-gallery>
+      <!-- SCREENSHOT GRID -->
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {screenshots.map((screenshot, index) => (
+          <button
+            type="button"
+            class="screenshot-trigger group relative block overflow-hidden border border-outline bg-surface text-left transition-colors hover:border-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            data-screenshot-trigger
+            data-index={index}
+            aria-label={`View screenshot ${index + 1} of ${screenshots.length} for ${projectTitle}`}
+          >
+            <img
+              src={screenshot}
+              alt={`${projectTitle} screenshot ${index + 1}`}
+              loading="lazy"
+              class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            />
+
+            <span class="absolute bottom-0 left-0 right-0 flex items-center justify-between bg-background/90 px-4 py-3 font-ui text-[10px] tracking-widest text-foreground">
+              <span>
+                MEMORY {String(index + 1).padStart(2, '0')}
+              </span>
+              <span aria-hidden="true">↗</span>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <!-- FULLSCREEN LIGHTBOX -->
+      <dialog
+        class="memory-dialog"
+        data-memory-dialog
+        aria-label={`${projectTitle} screenshot viewer`}
+      >
+        <div class="memory-viewer" data-memory-viewer>
+          <div class="memory-topbar">
+            <div class="min-w-0">
+              <p class="font-ui text-[10px] tracking-[0.2em] text-accent">
+                ELI.EXE / MEMORY FRAGMENTS
+              </p>
+              <p
+                class="mt-2 truncate font-ui text-xs text-foreground/70"
+                data-memory-counter
+                aria-live="polite"
+              >
+                MEMORY 01 / {String(screenshots.length).padStart(2, '0')}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="memory-control"
+              data-memory-close
+              aria-label="Close screenshot viewer"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div class="memory-image-area">
+            <button
+              type="button"
+              class="memory-control"
+              data-memory-previous
+              aria-label="Previous screenshot"
+            >
+              ←
+            </button>
+
+            <img
+              src={screenshots[0]}
+              alt={`${projectTitle} screenshot 1`}
+              class="memory-full-image"
+              data-memory-image
+            />
+
+            <button
+              type="button"
+              class="memory-control"
+              data-memory-next
+              aria-label="Next screenshot"
+            >
+              →
+            </button>
+          </div>
+
+          <div class="memory-bottom-bar">
+            <p class="font-ui text-[10px] tracking-widest text-foreground/50">
+              ESC TO CLOSE · ← → TO NAVIGATE
+            </p>
+
+            <a
+              href={screenshots[0]}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-ui text-[10px] tracking-widest text-accent hover:text-foreground"
+              data-memory-original
+            >
+              OPEN ORIGINAL ↗
+            </a>
+          </div>
+        </div>
+      </dialog>
+    </div>
+  )
+}
+
+<script>
+  function initializeMemoryGalleries() {
+    const galleries = document.querySelectorAll<HTMLElement>(
+      '[data-screenshot-gallery]'
+    );
+
+    galleries.forEach((gallery) => {
+      if (gallery.dataset.initialized === 'true') return;
+      gallery.dataset.initialized = 'true';
+
+      const dialog = gallery.querySelector<HTMLDialogElement>(
+        '[data-memory-dialog]'
+      );
+
+      const triggers = Array.from(
+        gallery.querySelectorAll<HTMLButtonElement>(
+          '[data-screenshot-trigger]'
+        )
+      );
+
+      const image = gallery.querySelector<HTMLImageElement>(
+        '[data-memory-image]'
+      );
+
+      const counter = gallery.querySelector<HTMLElement>(
+        '[data-memory-counter]'
+      );
+
+      const originalLink = gallery.querySelector<HTMLAnchorElement>(
+        '[data-memory-original]'
+      );
+
+      const previousButton = gallery.querySelector<HTMLButtonElement>(
+        '[data-memory-previous]'
+      );
+
+      const nextButton = gallery.querySelector<HTMLButtonElement>(
+        '[data-memory-next]'
+      );
+
+      const closeButton = gallery.querySelector<HTMLButtonElement>(
+        '[data-memory-close]'
+      );
+
+      if (
+        !dialog ||
+        !image ||
+        !counter ||
+        !originalLink ||
+        triggers.length === 0
+      ) {
+        return;
+      }
+
+      const screenshots = triggers.map((trigger) => {
+        const thumbnail = trigger.querySelector('img');
+        return {
+          src: thumbnail?.getAttribute('src') ?? '',
+          alt: thumbnail?.alt ?? 'Project screenshot',
+        };
+      });
+
+      let currentIndex = 0;
+
+      function updateImage() {
+        const screenshot = screenshots[currentIndex];
+        if (!screenshot) return;
+
+        image!.src = screenshot.src;
+        image!.alt = screenshot.alt;
+
+        counter!.textContent =
+          `MEMORY ${String(currentIndex + 1).padStart(2, '0')} / ` +
+          String(screenshots.length).padStart(2, '0');
+
+        originalLink!.href = screenshot.src;
+
+        if (previousButton) {
+          previousButton.disabled = screenshots.length <= 1;
+        }
+
+        if (nextButton) {
+          nextButton.disabled = screenshots.length <= 1;
+        }
+      }
+
+      function navigate(direction: number) {
+        currentIndex =
+          (currentIndex + direction + screenshots.length) %
+          screenshots.length;
+
+        updateImage();
+      }
+
+      function openViewer(index: number) {
+        currentIndex = index;
+        updateImage();
+
+        if (!dialog!.open) {
+          dialog!.showModal();
+        }
+
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeViewer() {
+        dialog!.close();
+      }
+
+      triggers.forEach((trigger, index) => {
+        trigger.addEventListener('click', () => {
+          openViewer(index);
+        });
+      });
+
+      previousButton?.addEventListener('click', () => {
+        navigate(-1);
+      });
+
+      nextButton?.addEventListener('click', () => {
+        navigate(1);
+      });
+
+      closeButton?.addEventListener('click', closeViewer);
+
+      dialog.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          navigate(-1);
+        }
+
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          navigate(1);
+        }
+      });
+
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+          closeViewer();
+        }
+      });
+
+      dialog.addEventListener('close', () => {
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  initializeMemoryGalleries();
+
+  document.addEventListener(
+    'astro:page-load',
+    initializeMemoryGalleries
+  );
+</script>
+
+<style>
+  .memory-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-foreground);
+  }
+
+  .memory-dialog::backdrop {
+    background: rgba(8, 10, 18, 0.94);
+    backdrop-filter: blur(10px);
+  }
+
+  .memory-dialog[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .memory-viewer {
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 1200px);
+    height: 100%;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    gap: 1.5rem;
+  }
+
+  .memory-topbar,
+  .memory-bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .memory-image-area {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 2vw, 1.5rem);
+  }
+
+  .memory-full-image {
+    width: auto;
+    max-width: min(100%, 1000px);
+    height: auto;
+    max-height: 100%;
+    min-width: 0;
+    object-fit: contain;
+    border: 1px solid var(--color-outline);
+    background: var(--color-surface);
+  }
+
+  .memory-control {
+    display: grid;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid var(--color-outline);
+    background: var(--color-surface);
+    color: var(--color-accent);
+    font-family: var(--font-ui), monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .memory-control:hover,
+  .memory-control:focus-visible {
+    border-color: var(--color-accent);
+  }
+
+  .memory-control:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .memory-bottom-bar {
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    .memory-viewer {
+      gap: 1rem;
+    }
+
+    .memory-control {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .memory-bottom-bar {
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .screenshot-trigger img,
+    .memory-control {
+      transition: none;
+    }
+  }
+</style>
