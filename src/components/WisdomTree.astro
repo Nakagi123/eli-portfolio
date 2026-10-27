@@ -8,14 +8,14 @@ import { wisdomFruits } from '../data/treeOfWisdom';
     class="h-auto w-full overflow-visible"
     xmlns="http://www.w3.org/2000/svg"
     role="group"
-    aria-label="The Tree of Wisdom and its interactive social-link fruits"
+    aria-label="The Tree of Wisdom with four interactive social-link fruits"
   >
     <defs>
       <radialGradient id="wisdom-aura">
         <stop
           offset="0%"
           stop-color="#B5A2D0"
-          stop-opacity="0.26"
+          stop-opacity="0.23"
         />
         <stop
           offset="100%"
@@ -25,14 +25,14 @@ import { wisdomFruits } from '../data/treeOfWisdom';
       </radialGradient>
 
       <filter id="fruit-glow">
-        <feGaussianBlur stdDeviation="3" />
+        <feGaussianBlur stdDeviation="4" />
       </filter>
     </defs>
 
-    <!-- Magical aura -->
+    <!-- Magical background -->
     <ellipse
       cx="180"
-      cy="185"
+      cy="180"
       rx="170"
       ry="165"
       fill="url(#wisdom-aura)"
@@ -42,146 +42,171 @@ import { wisdomFruits } from '../data/treeOfWisdom';
     <ellipse
       cx="180"
       cy="353"
-      rx="105"
-      ry="12"
+      rx="112"
+      ry="11"
       fill="#B5A2D0"
       opacity="0.12"
     />
 
     <!-- Roots -->
-    <g fill="#51425F">
+    <g shape-rendering="crispEdges">
       <path
-        d="M154 306 H205 V332 H222 V344
-           H247 V354 H113 V344 H136 V332 H154 Z"
+        d="M155 304 H205 V325 H218 V337
+           H238 V347 H257 V356
+           H103 V347 H122 V337 H142 V325 H155 Z"
+        fill="#443649"
       />
+
       <path
-        d="M153 325 H139 V339 H117 V349 H101 V355
-           H155 Z"
+        d="M156 321 H142 V334 H121 V345
+           H109 V351 H155 Z"
+        fill="#70566C"
       />
+
       <path
-        d="M206 325 H221 V339 H243 V349 H259 V355
-           H205 Z"
+        d="M204 321 H218 V334 H239 V345
+           H251 V351 H205 Z"
+        fill="#70566C"
       />
     </g>
 
-    <!-- Trunk outline -->
+    <!-- Main trunk silhouette -->
     <path
-      d="M151 172 H209 V328 H220 V344
-         H233 V354 H127 V344 H140 V328
-         H151 Z"
+      d="M151 176 H209 V321 H218 V337
+         H231 V349 H129 V337 H142 V321 H151 Z"
       fill="#302A3B"
     />
 
     <!-- Trunk body -->
     <path
-      d="M157 178 H203 V330 H214 V344
-         H146 V330 H157 Z"
-      fill="#866A83"
+      d="M157 181 H203 V324 H212 V341
+         H148 V324 H157 Z"
+      fill="#80647A"
     />
 
-    <!-- Bark highlights and shadows -->
-    <g fill="#A78BA4">
-      <rect x="159" y="189" width="9" height="86" />
-      <rect x="169" y="222" width="6" height="42" />
-      <rect x="192" y="275" width="6" height="51" />
+    <!-- Major branches -->
+    <g fill="#55415A">
+      <path
+        d="M160 239 H146 V206 H126 V181
+           H111 V166 H124 V174 H154 V195 H170 Z"
+      />
+
+      <path
+        d="M190 229 H205 V197 H227 V168
+           H244 V151 H231 V162 H198 V188 H182 Z"
+      />
+
+      <path
+        d="M164 270 H146 V245 H116 V228
+           H100 V215 H116 V221 H158 Z"
+      />
+
+      <path
+        d="M195 262 H212 V241 H241 V225
+           H259 V212 H241 V217 H204 Z"
+      />
     </g>
 
-    <g fill="#58445E">
-      <rect x="196" y="194" width="8" height="64" />
-      <rect x="183" y="296" width="6" height="35" />
-      <rect x="152" y="310" width="7" height="26" />
+    <!-- Trunk bark highlights -->
+    <g shape-rendering="crispEdges">
+      <rect x="160" y="210" width="7" height="66" fill="#AA8A99" />
+      <rect x="169" y="245" width="5" height="41" fill="#AA8A99" />
+      <rect x="193" y="286" width="6" height="39" fill="#AA8A99" />
+
+      <rect x="196" y="208" width="7" height="54" fill="#55415A" />
+      <rect x="183" y="296" width="5" height="30" fill="#55415A" />
+      <rect x="154" y="304" width="5" height="29" fill="#55415A" />
+
+      <!-- Bark markings -->
+      <rect x="176" y="261" width="12" height="4" fill="#5D485F" />
+      <rect x="180" y="265" width="4" height="15" fill="#5D485F" />
+
+      <rect x="173" y="308" width="15" height="4" fill="#5D485F" />
+      <rect x="177" y="312" width="4" height="13" fill="#5D485F" />
+
+      <rect x="160" y="287" width="9" height="4" fill="#5D485F" />
     </g>
 
-    <!-- Branches behind the foliage -->
-    <g fill="#68516F">
-      <path d="M160 231 H148 V205 H124 V185 H111 V174 H126 V183 H155 V199 H169 Z" />
-      <path d="M190 218 H203 V192 H229 V171 H242 V161 H228 V171 H198 V190 H182 Z" />
-      <path d="M165 263 H149 V242 H117 V231 H106 V221 H122 V230 H160 Z" />
-      <path d="M194 256 H211 V236 H241 V222 H253 V212 H237 V224 H200 Z" />
-    </g>
-
-    <!-- Canopy outer silhouette -->
+    <!-- Canopy silhouette -->
     <path
-      d="M133 43 H226 V58 H251 V73 H273 V93
-         H291 V117 H307 V155 H295 V184
-         H278 V211 H248 V230 H214 V239
-         H147 V230 H110 V216 H82 V198
-         H65 V172 H52 V133 H65 V102
-         H84 V82 H106 V62 H133 Z"
-      fill="#2D3B3B"
+      d="M136 41 H224 V54 H250 V71 H273 V92
+         H290 V113 H304 V144 H294 V173
+         H278 V198 H253 V218 H224 V231
+         H139 V220 H108 V207 H83 V190
+         H65 V167 H53 V133 H66 V103
+         H84 V81 H109 V60 H136 Z"
+      fill="#293A39"
       stroke="#1B262B"
       stroke-width="5"
       stroke-linejoin="miter"
     />
 
-    <!-- Main foliage -->
+    <!-- Main canopy -->
     <path
-      d="M139 50 H219 V65 H246 V82 H268 V103
-         H286 V132 H298 V155 H284 V180
-         H269 V202 H241 V220 H209 V229
-         H151 V220 H116 V207 H88 V190
-         H73 V166 H61 V134 H75 V109
-         H91 V89 H112 V70 H139 Z"
-      fill="#526B5F"
+      d="M140 48 H219 V62 H245 V79 H268 V100
+         H284 V120 H296 V143 H286 V169
+         H271 V193 H248 V211 H220 V223
+         H144 V212 H113 V199 H89 V183
+         H73 V163 H61 V135 H74 V109
+         H90 V87 H114 V67 H140 Z"
+      fill="#526C60"
     />
 
-    <!-- Dark leaf shadows -->
-    <g fill="#384E48">
-      <rect x="73" y="142" width="43" height="31" />
-      <rect x="90" y="174" width="54" height="26" />
-      <rect x="124" y="192" width="62" height="27" />
-      <rect x="201" y="190" width="51" height="29" />
-      <rect x="253" y="150" width="35" height="32" />
-      <rect x="222" y="88" width="46" height="28" />
-      <rect x="141" y="65" width="55" height="23" />
+    <!-- Large shadow clusters -->
+    <g fill="#374F48" shape-rendering="crispEdges">
+      <rect x="75" y="145" width="43" height="30" />
+      <rect x="91" y="173" width="50" height="25" />
+      <rect x="121" y="194" width="64" height="23" />
+      <rect x="203" y="191" width="49" height="26" />
+      <rect x="252" y="150" width="33" height="32" />
+      <rect x="219" y="88" width="48" height="29" />
+      <rect x="145" y="64" width="50" height="23" />
+      <rect x="183" y="114" width="46" height="25" />
     </g>
 
-    <!-- Leaf highlights -->
-    <g fill="#789182">
-      <rect x="116" y="81" width="43" height="13" />
-      <rect x="102" y="94" width="27" height="13" />
-      <rect x="180" y="73" width="37" height="13" />
-      <rect x="223" y="114" width="36" height="13" />
-      <rect x="81" y="124" width="31" height="13" />
-      <rect x="147" y="121" width="42" height="13" />
-      <rect x="192" y="155" width="37" height="13" />
-      <rect x="113" y="161" width="32" height="13" />
+    <!-- Lighter leaf clusters -->
+    <g fill="#769082" shape-rendering="crispEdges">
+      <rect x="113" y="80" width="45" height="12" />
+      <rect x="101" y="92" width="28" height="13" />
+      <rect x="180" y="74" width="37" height="12" />
+      <rect x="223" y="113" width="36" height="13" />
+      <rect x="80" y="124" width="29" height="12" />
+      <rect x="147" y="122" width="41" height="12" />
+      <rect x="195" y="155" width="36" height="12" />
+      <rect x="116" y="160" width="30" height="12" />
+      <rect x="162" y="186" width="28" height="10" />
     </g>
 
-    <!-- Magical lavender foliage -->
-    <g fill="#B5A2D0" opacity="0.75">
-      <rect x="150" y="95" width="10" height="10" />
-      <rect x="244" y="139" width="9" height="9" />
-      <rect x="100" y="187" width="8" height="8" />
-      <rect x="210" y="204" width="8" height="8" />
-      <rect x="178" y="53" width="7" height="7" />
+    <!-- Small leaf details -->
+    <g fill="#91A999" shape-rendering="crispEdges">
+      <rect x="133" y="70" width="11" height="6" />
+      <rect x="241" y="97" width="12" height="6" />
+      <rect x="90" y="113" width="11" height="6" />
+      <rect x="177" y="151" width="11" height="6" />
+      <rect x="225" y="183" width="11" height="6" />
     </g>
 
-    <!-- Face carved into trunk -->
-    <g>
-      <!-- Eyebrows -->
-      <rect x="162" y="268" width="13" height="4" fill="#4B364E" />
-      <rect x="187" y="268" width="13" height="4" fill="#4B364E" />
+    <!-- Magical lavender leaves -->
+    <g fill="#B5A2D0" opacity="0.75" shape-rendering="crispEdges">
+      <rect x="151" y="97" width="8" height="8" />
+      <rect x="243" y="138" width="8" height="8" />
+      <rect x="99" y="187" width="7" height="7" />
+      <rect x="209" y="202" width="7" height="7" />
+      <rect x="179" y="54" width="7" height="7" />
+      <rect x="274" y="125" width="6" height="6" />
+    </g>
 
-      <!-- Eyes -->
-      <rect x="166" y="276" width="7" height="9" fill="#F2E7DD" />
-      <rect x="190" y="276" width="7" height="9" fill="#F2E7DD" />
-
-      <!-- Pupils -->
-      <rect x="169" y="280" width="3" height="4" fill="#302A3B" />
-      <rect x="193" y="280" width="3" height="4" fill="#302A3B" />
-
-      <!-- Nose -->
-      <rect x="179" y="286" width="6" height="8" fill="#654B67" />
-
-      <!-- Smile -->
-      <path
-        d="M168 301 V306 H174 V310 H190 V306 H196 V301"
-        fill="none"
-        stroke="#4B364E"
-        stroke-width="4"
-        stroke-linejoin="miter"
-      />
+    <!-- Hanging apple stems -->
+    <g
+      stroke="#A8C9A3"
+      stroke-width="3"
+      fill="none"
+      shape-rendering="crispEdges"
+    >
+      <path d="M112 110 V118" />
+      <path d="M244 97 V105" />
+      <path d="M94 181 V190" />
+      <path d="M259 177 V185" />
     </g>
 
     <!-- Interactive pixel apples -->
@@ -203,28 +228,49 @@ import { wisdomFruits } from '../data/treeOfWisdom';
             fill="transparent"
           />
 
-          <!-- Hover glow -->
+          <!-- Glow -->
           <rect
             class="fruit-glow"
-            x="-19"
-            y="-19"
-            width="38"
-            height="38"
+            x="-21"
+            y="-21"
+            width="42"
+            height="42"
             fill="#F1A4B1"
-            opacity="0.45"
             filter="url(#fruit-glow)"
           />
 
-          <!-- Apple sprite -->
-          <g class="fruit-sprite" shape-rendering="crispEdges">
+          <!-- Pixel apple -->
+          <g
+            class="fruit-sprite"
+            shape-rendering="crispEdges"
+          >
             <!-- Stem -->
-            <rect x="-2" y="-22" width="4" height="8" fill="#6A493F" />
+            <rect
+              x="-2"
+              y="-22"
+              width="4"
+              height="8"
+              fill="#6A493F"
+            />
 
             <!-- Leaf -->
-            <rect x="3" y="-23" width="10" height="5" fill="#A8C9A3" />
-            <rect x="7" y="-18" width="6" height="4" fill="#789F7C" />
+            <rect
+              x="3"
+              y="-23"
+              width="10"
+              height="5"
+              fill="#A8C9A3"
+            />
 
-            <!-- Apple silhouette -->
+            <rect
+              x="7"
+              y="-18"
+              width="6"
+              height="4"
+              fill="#789F7C"
+            />
+
+            <!-- Outer apple silhouette -->
             <path
               d="M-13 -14 H-5 V-11 H5 V-14 H13
                  V-10 H18 V-3 H20 V11 H15
@@ -242,15 +288,41 @@ import { wisdomFruits } from '../data/treeOfWisdom';
               fill="#E9A0A8"
             />
 
-            <!-- Apple shine -->
-            <rect x="-12" y="-6" width="5" height="9" fill="#FFD0D1" />
-            <rect x="-7" y="-10" width="5" height="4" fill="#FFD0D1" />
+            <!-- Shine -->
+            <rect
+              x="-12"
+              y="-6"
+              width="5"
+              height="9"
+              fill="#FFD0D1"
+            />
 
-            <!-- Apple shadow -->
-            <rect x="11" y="1" width="5" height="8" fill="#C9748E" />
-            <rect x="5" y="12" width="7" height="4" fill="#C9748E" />
+            <rect
+              x="-7"
+              y="-10"
+              width="5"
+              height="4"
+              fill="#FFD0D1"
+            />
 
-            <!-- Platform abbreviation -->
+            <!-- Shadow -->
+            <rect
+              x="11"
+              y="1"
+              width="5"
+              height="8"
+              fill="#C9748E"
+            />
+
+            <rect
+              x="5"
+              y="12"
+              width="7"
+              height="4"
+              fill="#C9748E"
+            />
+
+            <!-- Platform symbol -->
             <text
               x="0"
               y="6"
@@ -293,13 +365,13 @@ import { wisdomFruits } from '../data/treeOfWisdom';
       </a>
     ))}
 
-    <!-- Magic particles -->
-    <g fill="#B5A2D0" opacity="0.75">
-      <rect x="32" y="84" width="5" height="5" />
-      <rect x="318" y="106" width="4" height="4" />
-      <rect x="42" y="248" width="4" height="4" />
-      <rect x="312" y="266" width="5" height="5" />
-      <rect x="177" y="15" width="4" height="4" />
+    <!-- Floating magic particles -->
+    <g fill="#B5A2D0" opacity="0.7" shape-rendering="crispEdges">
+      <rect x="30" y="85" width="5" height="5" />
+      <rect x="319" y="107" width="4" height="4" />
+      <rect x="42" y="247" width="4" height="4" />
+      <rect x="314" y="265" width="5" height="5" />
+      <rect x="179" y="15" width="4" height="4" />
     </g>
   </svg>
 </div>

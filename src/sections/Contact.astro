@@ -40,24 +40,14 @@ import {
       class="pixel-panel relative mx-auto mt-4
              max-w-2xl p-5 sm:p-6"
     >
-      <!-- NPC name and dialogue counter -->
-      <div
-        class="mb-4 flex flex-wrap items-center
-               justify-between gap-3"
-      >
+      <!-- NPC name, no wisdom counter -->
+      <div class="mb-4">
         <p
           class="font-pixel text-[10px]
                  tracking-wide text-accent"
         >
           ✦ THE TREE SPEAKS
         </p>
-
-        <span
-          data-dialogue-counter
-          class="font-ui text-xs text-foreground/75"
-        >
-          01 / {String(wisdomDialogues.length).padStart(2, '0')}
-        </span>
       </div>
 
       <!-- Typewriter dialogue -->
@@ -169,7 +159,6 @@ import {
   import { wisdomDialogues } from '../data/treeOfWisdom';
 
   function setupWisdomDialogue() {
-    console.log('🌳 Tree of Wisdom script is running!');
     const root = document.querySelector<HTMLElement>(
       '[data-wisdom-dialogue]'
     );
@@ -186,10 +175,6 @@ import {
       '[data-dialogue-announcement]'
     );
 
-    const counter = root.querySelector<HTMLElement>(
-      '[data-dialogue-counter]'
-    );
-
     const nextButton = root.querySelector<HTMLButtonElement>(
       '[data-next-wisdom]'
     );
@@ -201,7 +186,6 @@ import {
     if (
       !textElement ||
       !announcement ||
-      !counter ||
       !nextButton ||
       !skipButton ||
       wisdomDialogues.length === 0
@@ -239,13 +223,10 @@ import {
 
       const message = wisdomDialogues[dialogueIndex];
 
-      counter!.textContent =
-        `${String(dialogueIndex + 1).padStart(2, '0')} / ` +
-        `${String(wisdomDialogues.length).padStart(2, '0')}`;
-
       // Announce the full line to screen readers.
       announcement!.textContent = message;
 
+      // Respect visitors who prefer reduced motion.
       if (motionQuery.matches) {
         textElement!.textContent = message;
         skipButton!.hidden = true;
@@ -281,7 +262,7 @@ import {
       typeNextCharacter();
     }
 
-    // NEXT always advances and restarts the animation.
+    // NEXT advances to the next wisdom and loops.
     nextButton.addEventListener('click', () => {
       dialogueIndex =
         (dialogueIndex + 1) % wisdomDialogues.length;
@@ -289,9 +270,10 @@ import {
       showDialogue();
     });
 
-    // SKIP only completes the current dialogue.
+    // SKIP completes the current dialogue.
     skipButton.addEventListener('click', finishTyping);
 
+    // Stop animation if reduced motion becomes enabled.
     motionQuery.addEventListener('change', () => {
       if (motionQuery.matches) {
         finishTyping();
@@ -300,8 +282,6 @@ import {
 
     showDialogue();
   }
-
-
 
   setupWisdomDialogue();
 
@@ -312,6 +292,7 @@ import {
 </script>
 
 <style>
+  /* Blinking RPG dialogue cursor */
   .dialogue-cursor {
     animation: dialogue-blink 1s steps(1, end) infinite;
   }
@@ -326,6 +307,12 @@ import {
     }
   }
 
+  /* Ensure hidden SKIP button stays hidden */
+  [data-skip-typing][hidden] {
+    display: none;
+  }
+
+  /* Respect reduced-motion preferences */
   @media (prefers-reduced-motion: reduce) {
     .dialogue-cursor {
       animation: none;
